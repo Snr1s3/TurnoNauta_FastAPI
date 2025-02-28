@@ -1,0 +1,293 @@
+-- Set encoding and standard strings
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = 'on';
+SELECT pg_catalog.set_config('search_path', '', false);
+
+-- Create database
+CREATE DATABASE turnonauta WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'ca_ES.UTF-8';
+
+-- Create tables
+CREATE TABLE public.emparellaments (
+    id_emparellant integer NOT NULL,
+    id_usuari1 integer,
+    id_usuari2 integer
+);
+
+CREATE TABLE public.estadistiques (
+    id_estats integer NOT NULL,
+    partides_jugades integer DEFAULT 0,
+    partides_guanyades integer DEFAULT 0,
+    punts_totals integer DEFAULT 0
+);
+
+CREATE TABLE public.format (
+    id_format integer NOT NULL,
+    nom character varying(100) NOT NULL,
+    joc character varying(100) NOT NULL,
+    jugadors integer NOT NULL,
+    temps integer,
+    regles text
+);
+
+CREATE TABLE public.partida (
+    id_partida integer NOT NULL,
+    data_inici timestamp without time zone NOT NULL,
+    estat character varying(50) NOT NULL,
+    id_emparellant integer
+);
+
+CREATE TABLE public.rang (
+    id_rang integer NOT NULL,
+    nom character varying(50) NOT NULL,
+    descripcio text
+);
+
+CREATE TABLE public.resultat (
+    id_resultat integer NOT NULL,
+    joc character varying(100) NOT NULL,
+    resultat text NOT NULL
+);
+
+CREATE TABLE public.rol (
+    id_rol integer NOT NULL,
+    nom character varying(50) NOT NULL,
+    permet_torneig boolean NOT NULL
+);
+
+CREATE TABLE public.subscripcio (
+    id_subscripcio integer NOT NULL,
+    data_inici date NOT NULL,
+    data_final date,
+    tipus character varying(50) NOT NULL,
+    estat character varying(20) NOT NULL
+);
+
+CREATE TABLE public.torneig (
+    id integer NOT NULL,
+    nom character varying(100) NOT NULL,
+    joc character varying(100) NOT NULL,
+    partida integer,
+    competitiu boolean NOT NULL,
+    usuari_organitzador integer,
+    resultat integer,
+    virtual boolean NOT NULL,
+    format integer,
+    premi text,
+    data_d_inici date NOT NULL,
+    data_final date
+);
+
+CREATE TABLE public.usuaris (
+    id integer NOT NULL,
+    rol integer,
+    username character varying(50) NOT NULL,
+    email character varying(100) NOT NULL,
+    bio text,
+    telefono character varying(20),
+    contrasenya character varying(255) NOT NULL,
+    subscripcio integer,
+    estadistiques integer,
+    rang integer,
+    data_de_registre timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create sequences
+CREATE SEQUENCE public.emparellaments_id_emparellant_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.estadistiques_id_estats_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.format_id_format_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.partida_id_partida_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.rang_id_rang_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.resultat_id_resultat_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.rol_id_rol_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.subscripcio_id_subscripcio_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.torneig_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE public.usuaris_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+-- Set sequence ownership
+ALTER SEQUENCE public.emparellaments_id_emparellant_seq OWNED BY public.emparellaments.id_emparellant;
+ALTER SEQUENCE public.estadistiques_id_estats_seq OWNED BY public.estadistiques.id_estats;
+ALTER SEQUENCE public.format_id_format_seq OWNED BY public.format.id_format;
+ALTER SEQUENCE public.partida_id_partida_seq OWNED BY public.partida.id_partida;
+ALTER SEQUENCE public.rang_id_rang_seq OWNED BY public.rang.id_rang;
+ALTER SEQUENCE public.resultat_id_resultat_seq OWNED BY public.resultat.id_resultat;
+ALTER SEQUENCE public.rol_id_rol_seq OWNED BY public.rol.id_rol;
+ALTER SEQUENCE public.subscripcio_id_subscripcio_seq OWNED BY public.subscripcio.id_subscripcio;
+ALTER SEQUENCE public.torneig_id_seq OWNED BY public.torneig.id;
+ALTER SEQUENCE public.usuaris_id_seq OWNED BY public.usuaris.id;
+
+-- Set default values for sequences
+ALTER TABLE ONLY public.emparellaments ALTER COLUMN id_emparellant SET DEFAULT nextval('public.emparellaments_id_emparellant_seq'::regclass);
+ALTER TABLE ONLY public.estadistiques ALTER COLUMN id_estats SET DEFAULT nextval('public.estadistiques_id_estats_seq'::regclass);
+ALTER TABLE ONLY public.format ALTER COLUMN id_format SET DEFAULT nextval('public.format_id_format_seq'::regclass);
+ALTER TABLE ONLY public.partida ALTER COLUMN id_partida SET DEFAULT nextval('public.partida_id_partida_seq'::regclass);
+ALTER TABLE ONLY public.rang ALTER COLUMN id_rang SET DEFAULT nextval('public.rang_id_rang_seq'::regclass);
+ALTER TABLE ONLY public.resultat ALTER COLUMN id_resultat SET DEFAULT nextval('public.resultat_id_resultat_seq'::regclass);
+ALTER TABLE ONLY public.rol ALTER COLUMN id_rol SET DEFAULT nextval('public.rol_id_rol_seq'::regclass);
+ALTER TABLE ONLY public.subscripcio ALTER COLUMN id_subscripcio SET DEFAULT nextval('public.subscripcio_id_subscripcio_seq'::regclass);
+ALTER TABLE ONLY public.torneig ALTER COLUMN id SET DEFAULT nextval('public.torneig_id_seq'::regclass);
+ALTER TABLE ONLY public.usuaris ALTER COLUMN id SET DEFAULT nextval('public.usuaris_id_seq'::regclass);
+
+-- Copy data into tables
+COPY public.emparellaments (id_emparellant, id_usuari1, id_usuari2) FROM stdin;
+COPY public.estadistiques (id_estats, partides_jugades, partides_guanyades, punts_totals) FROM stdin;
+COPY public.format (id_format, nom, joc, jugadors, temps, regles) FROM stdin;
+COPY public.partida (id_partida, data_inici, estat, id_emparellant) FROM stdin;
+COPY public.rang (id_rang, nom, descripcio) FROM stdin;
+COPY public.resultat (id_resultat, joc, resultat) FROM stdin;
+COPY public.rol (id_rol, nom, permet_torneig) FROM stdin;
+COPY public.subscripcio (id_subscripcio, data_inici, data_final, tipus, estat) FROM stdin;
+COPY public.torneig (id, nom, joc, partida, competitiu, usuari_organitzador, resultat, virtual, format, premi, data_d_inici, data_final) FROM stdin;
+COPY public.usuaris (id, rol, username, email, bio, telefono, contrasenya, subscripcio, estadistiques, rang, data_de_registre) FROM stdin;
+
+-- Set sequence values
+SELECT pg_catalog.setval('public.emparellaments_id_emparellant_seq', 1, false);
+SELECT pg_catalog.setval('public.estadistiques_id_estats_seq', 1, false);
+SELECT pg_catalog.setval('public.format_id_format_seq', 1, false);
+SELECT pg_catalog.setval('public.partida_id_partida_seq', 1, false);
+SELECT pg_catalog.setval('public.rang_id_rang_seq', 1, false);
+SELECT pg_catalog.setval('public.resultat_id_resultat_seq', 1, false);
+SELECT pg_catalog.setval('public.rol_id_rol_seq', 1, false);
+SELECT pg_catalog.setval('public.subscripcio_id_subscripcio_seq', 1, false);
+SELECT pg_catalog.setval('public.torneig_id_seq', 1, false);
+SELECT pg_catalog.setval('public.usuaris_id_seq', 1, false);
+
+-- Add primary key constraints
+ALTER TABLE ONLY public.emparellaments
+    ADD CONSTRAINT emparellaments_pkey PRIMARY KEY (id_emparellant);
+
+ALTER TABLE ONLY public.estadistiques
+    ADD CONSTRAINT estadistiques_pkey PRIMARY KEY (id_estats);
+
+ALTER TABLE ONLY public.format
+    ADD CONSTRAINT format_pkey PRIMARY KEY (id_format);
+
+ALTER TABLE ONLY public.partida
+    ADD CONSTRAINT partida_pkey PRIMARY KEY (id_partida);
+
+ALTER TABLE ONLY public.rang
+    ADD CONSTRAINT rang_pkey PRIMARY KEY (id_rang);
+
+ALTER TABLE ONLY public.resultat
+    ADD CONSTRAINT resultat_pkey PRIMARY KEY (id_resultat);
+
+ALTER TABLE ONLY public.rol
+    ADD CONSTRAINT rol_pkey PRIMARY KEY (id_rol);
+
+ALTER TABLE ONLY public.subscripcio
+    ADD CONSTRAINT subscripcio_pkey PRIMARY KEY (id_subscripcio);
+
+ALTER TABLE ONLY public.torneig
+    ADD CONSTRAINT torneig_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_pkey PRIMARY KEY (id);
+
+-- Add unique constraints
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_email_key UNIQUE (email);
+
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_username_key UNIQUE (username);
+
+-- Add foreign key constraints
+ALTER TABLE ONLY public.emparellaments
+    ADD CONSTRAINT emparellaments_id_usuari1_fkey FOREIGN KEY (id_usuari1) REFERENCES public.usuaris(id);
+
+ALTER TABLE ONLY public.emparellaments
+    ADD CONSTRAINT emparellaments_id_usuari2_fkey FOREIGN KEY (id_usuari2) REFERENCES public.usuaris(id);
+
+ALTER TABLE ONLY public.torneig
+    ADD CONSTRAINT fk_format FOREIGN KEY (format) REFERENCES public.format(id_format);
+
+ALTER TABLE ONLY public.torneig
+    ADD CONSTRAINT fk_partida FOREIGN KEY (partida) REFERENCES public.partida(id_partida);
+
+ALTER TABLE ONLY public.partida
+    ADD CONSTRAINT partida_id_emparellant_fkey FOREIGN KEY (id_emparellant) REFERENCES public.emparellaments(id_emparellant);
+
+ALTER TABLE ONLY public.torneig
+    ADD CONSTRAINT torneig_resultat_fkey FOREIGN KEY (resultat) REFERENCES public.resultat(id_resultat);
+
+ALTER TABLE ONLY public.torneig
+    ADD CONSTRAINT torneig_usuari_organitzador_fkey FOREIGN KEY (usuari_organitzador) REFERENCES public.usuaris(id);
+
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_estadistiques_fkey FOREIGN KEY (estadistiques) REFERENCES public.estadistiques(id_estats);
+
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_rang_fkey FOREIGN KEY (rang) REFERENCES public.rang(id_rang);
+
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_rol_fkey FOREIGN KEY (rol) REFERENCES public.rol(id_rol);
+
+ALTER TABLE ONLY public.usuaris
+    ADD CONSTRAINT usuaris_subscripcio_fkey FOREIGN KEY (subscripcio) REFERENCES public.subscripcio(id_subscripcio);
