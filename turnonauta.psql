@@ -1,3 +1,6 @@
+-- Drop Database if it exists
+DROP DATABASE IF EXISTS turnonauta;
+
 -- Create Database
 CREATE DATABASE turnonauta;
 
@@ -86,7 +89,8 @@ CREATE TABLE Emparellaments (
 CREATE TABLE Ronda (
     ID_ronda SERIAL PRIMARY KEY,
     Estat VARCHAR(20) NOT NULL,
-    ID_Emparellament INT REFERENCES Emparellaments(ID_Emparellament) ON DELETE SET NULL
+    ID_Emparellament INT REFERENCES Emparellaments(ID_Emparellament) ON DELETE SET NULL,
+    Numero_de_Ronda INT NOT NULL
 );
 
 -- Table: Rondes_Torneig
@@ -110,4 +114,11 @@ CREATE TABLE Resultat (
     ID_Ronda INT REFERENCES Ronda(ID_ronda) ON DELETE CASCADE,
     Usuari_Guanyador INT REFERENCES Usuaris(ID) ON DELETE SET NULL,
     ID_Joc_Torneig INT REFERENCES Torneig(ID) ON DELETE CASCADE
+);
+
+-- Table: Jugadors
+CREATE TABLE Jugadors (
+    ID_Jugador SERIAL PRIMARY KEY,
+    ID_Torneig INT REFERENCES Torneig(ID) ON DELETE CASCADE,
+    ID_Usuari INT REFERENCES Usuaris(ID) ON DELETE CASCADE
 );

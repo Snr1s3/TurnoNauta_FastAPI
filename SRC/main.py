@@ -5,9 +5,13 @@ from datetime import date
 from typing import List
 
 
+###################################
+## GETS DE TOTA LA BASE DE DADES ##
+###################################
 from emparellaments.gets_emparellaments import *
 from estadistiques.gets_estadistiques import *
 from formats.gets_formats import *
+from jugadors.gets_jugadors import *
 from puntuacions.gets_puntuacions import *
 from rangs.gets_rangs import *
 from resultats.gets_resultats import *
@@ -43,6 +47,9 @@ def get_estadistiques_all():
 def get_formats_all():
     return get_formats()
 
+@app.get("/jugadors/", response_model=List[Jugadors])
+def get_jugadors_all():
+    return get_jugadors()
 @app.get("/puntauacions/", response_model=List[Puntuacio])
 def get_puntuacions_all():
     return get_puntuacions()
