@@ -1,18 +1,20 @@
-import mysql.connector
-from mysql.connector import pooling
+import psycopg2
+from psycopg2 import pool
 
-# Configura la conexión a MariaDB
+# Configura la conexión a PostgreSQL
 db_config = {
-    'host': 'localhost',  # Use 'localhost' if running MariaDB locally
+    'host': 'localhost',  
     'user': 'postgres',
     'password': 'pirineus',
     'database': 'turnonauta',
-    'port': 5432,  
-    'collation': 'utf8mb4_general_ci'
+    'port': 5432
 }
 
 # Pool de conexiones
-db_pool = pooling.MySQLConnectionPool(pool_name="mypool", pool_size=5, **db_config)
+db_pool = pool.SimpleConnectionPool(1, 5, **db_config)
 
 def get_db_connection():
-    return db_pool.get_connection()
+    return db_pool.getconn()
+
+def release_db_connection(conn):
+    db_pool.putconn(conn)
