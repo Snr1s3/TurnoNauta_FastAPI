@@ -22,6 +22,8 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
+##################################### GET METHODS #####################################
 @app.get("/")
 def read_docs():
     return {"message": "Turnonauta API"}
@@ -75,3 +77,8 @@ def get_tornejos_all():
 def get_usuaris_all():
     return get_usuaris()
 
+##################################### POST METHODS #####################################
+@app.post("/login")
+def login(login_request: LoginRequest):
+    user = verify_user_credentials(login_request.username, login_request.password)
+    return {"message": "Login successful", "user": user}
