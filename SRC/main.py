@@ -1,29 +1,26 @@
 from fastapi import FastAPI, HTTPException, Depends
-from client import get_db_connection
-from models import *
-from datetime import date
 from typing import List
+from fastapi.staticfiles import StaticFiles
+from .client import get_db_connection, release_db_connection
+from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris
+from datetime import date
 
 
-###################################
-## GETS DE TOTA LA BASE DE DADES ##
-###################################
-from emparellaments.gets_emparellaments import *
-from estadistiques.gets_estadistiques import *
-from formats.gets_formats import *
-from jugadors.gets_jugadors import *
-from puntuacions.gets_puntuacions import *
-from rangs.gets_rangs import *
-from resultats.gets_resultats import *
-from rols.gets_rols import *
-from rondes.gets_rondes import *
-from rondes_torneig.gets_rondes_torneig import *
-from subscripcions.gets_subscripcions import *
-from tornejos.gets_tornejos import *
-from usuaris.gets_usuaris import *
-
+from .routers.emparellaments import *
+from .routers.estadistiques import *
+from .routers.formats import *
+from .routers.puntuacions import *
+from .routers.rangs import *
+from .routers.resultats import *
+from .routers.rols import *
+from .routers.rondes import *
+from .routers.subscripcions import *
+from .routers.tornejos import *
+from .routers.usuaris import *
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def read_docs():
@@ -32,7 +29,6 @@ def read_docs():
 @app.get("/docs")
 def read_docs():
     return {"message": "This is the documentation endpoint."}
-
 
 
 @app.get("/emparellaments/", response_model=List[Emparellaments])
@@ -47,9 +43,6 @@ def get_estadistiques_all():
 def get_formats_all():
     return get_formats()
 
-@app.get("/jugadors/", response_model=List[Jugadors])
-def get_jugadors_all():
-    return get_jugadors()
 @app.get("/puntauacions/", response_model=List[Puntuacio])
 def get_puntuacions_all():
     return get_puntuacions()
@@ -69,10 +62,6 @@ def get_rols_all():
 @app.get("/rondes/", response_model=List[Ronda])
 def get_rondes_all():
     return get_rondes()
-
-@app.get("/rondes_torneig/", response_model=List[Rondes_Torneig])
-def get_rondes_torneig_all():
-    return get_rondes_torneig()
 
 @app.get("/subscripcions/", response_model=List[Subscripcio])
 def get_subscripcions_all():

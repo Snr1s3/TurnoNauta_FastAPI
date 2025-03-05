@@ -3,90 +3,84 @@ from typing import Optional
 from datetime import date, datetime
 
 class Emparellaments(BaseModel):
-    ID_Emparellament: Optional[int]
-    Usuari1: int
-    Usuari2: int
+    id_emperallent: Optional[int]
+    id_usuari1: int
+    resultat_usuari_1: Optional[str]
+    id_usuari2: int
+    resultat_usuari_2: Optional[str]
 
 class Estadistiques(BaseModel):
-    ID_Estats: Optional[int]
-    Partides_jugades: Optional[int] = 0
-    Partides_guanyades: Optional[int] = 0
-    Torneigs_jugats: Optional[int] = 0
-    Torneigs_guanyats: Optional[int] = 0
+    id_estats: Optional[int]
+    id_usuari: int
+    partides_jugades: Optional[int] = 0
+    partides_guanyades: Optional[int] = 0
+    tornejos_jugats: Optional[int] = 0
+    tornejos_guanyats: Optional[int] = 0
 
 class Format(BaseModel):
-    ID_Format: Optional[int]
-    Nom: str
-    Joc: str
-    Jugadors: int
-    Temps: Optional[str]
-    Regles: Optional[str]
-
-class Jugadors(BaseModel):
-    ID_Jugador: Optional[int]
-    ID_Torneig: int
-    ID_Usuari: int
+    id_format: Optional[int]
+    nom: str
+    joc: str
+    jugadors: int
+    temps: Optional[str]
+    regles: Optional[str]
 
 class Puntuacio(BaseModel):
-    ID_Puntuacio: Optional[int]
-    ID_Torneig: int
-    ID_Usuari: int
-    Punts: int
+    id_puntuacio: Optional[int]
+    id_torneig: int
+    id_usuari: int
+    victories: Optional[int]
+    derrotes: Optional[int]
+    punts: Optional[int]
 
 class Rang(BaseModel):
-    ID_Rang: Optional[int]
-    Nom: str
-    Descripcio: Optional[str]
+    id_rang: Optional[int]
+    nom: str
+    descripcio: Optional[str]
 
 class Resultat(BaseModel):
-    ID_Resultat: Optional[int]
-    ID_Ronda: int
-    Usuari_Guanyador: Optional[int]
-    ID_Joc_Torneig: int
-
-class Ronda(BaseModel):
-    ID_ronda: Optional[int]
-    Estat: str
-    ID_Emparellament: Optional[int]
-    Numero_de_Ronda: int
-
-class Rondes_Torneig(BaseModel):
-    ID_Torneig: int
-    ID_Ronda: int
+    id_resultat: Optional[int]
+    id_ronda: int
+    id_usuari_guanyador: Optional[int]
 
 class Rol(BaseModel):
-    Id_Rol: Optional[int]
-    Nom: str
-    Permet_Torneig: bool
+    id_rol: Optional[int]
+    nom: str
+    permet_torneig: bool
+
+class Ronda(BaseModel):
+    id_ronda: Optional[int]
+    id_torneig: int
+    estat: str
+    id_emparallent: Optional[int]
 
 class Subscripcio(BaseModel):
-    ID_Subcripcio: Optional[int]
-    Data_inici: date
-    Data_final: date
-    Tipus: str
-    Estat: str
+    id_subscripcio: Optional[int]
+    id_usuari: int
+    data_inici: date
+    data_final: Optional[date]
+    tipus: str
+    estat: str
 
 class Torneig(BaseModel):
-    ID: Optional[int]
-    Nom: str
-    Joc: str
-    Usuari_Organitzador: int
-    Competitiu: bool
-    Virtual: bool
-    Format: Optional[int]
-    Premi: Optional[str]
-    Data_Inici: date
-    Data_Final: Optional[date]
+    id_torneig: Optional[int]
+    nom: str
+    joc: str
+    usuari_organitzador: int
+    competitiu: bool
+    virtual: bool
+    format: Optional[str]
+    premi: Optional[str]
+    data_d_inici: date
+    data_final: Optional[date]
 
 class Usuaris(BaseModel):
-    ID: Optional[int]
-    Rol: Optional[int]
-    Username: str
-    Email: str
-    Bio: Optional[str]
-    Telefono: Optional[str]
-    Contrasenya: str
-    Subcripcio: Optional[int]
-    Estadistiques: Optional[int]
-    Rang: Optional[int]
-    Data_de_Registre: Optional[datetime]
+    id_usuaris: Optional[int]
+    rol: Optional[int]
+    username: str
+    email: str
+    bio: Optional[str]
+    telefono: Optional[str]
+    contrasenya: str
+    rang: Optional[int]
+    data_de_registre: Optional[date]
