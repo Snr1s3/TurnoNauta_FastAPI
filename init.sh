@@ -1,3 +1,3 @@
 #!/bin/bash
-source venv/bin/activate
+source ./TurnoNauta_FastAPI/venv/bin/activate
 uvicorn SRC.main:app --reload

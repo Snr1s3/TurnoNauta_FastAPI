@@ -26,7 +26,7 @@ def verify_user_credentials(username: str, password: str):
         if user:
             return user
         else:
-            raise HTTPException(status_code=401, detail="Invalid username or password")
+            raise HTTPException(status_code=401, detail="Usuari o contrasenya incorrectes")
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
