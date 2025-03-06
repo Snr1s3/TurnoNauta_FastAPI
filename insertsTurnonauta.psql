@@ -33,11 +33,6 @@ INSERT INTO public.rang (id_rang, nom, descripcio) VALUES
 (1, 'Beginner', 'New player'),
 (2, 'Expert', 'Experienced player');
 
--- Insert into resultat
-INSERT INTO public.resultat (id_resultat, id_ronda, id_usuari_guanyador) VALUES
-(1, 1, 1),
-(2, 2, 2);
-
 -- Insert into rol
 INSERT INTO public.rol (id_rol, nom, permet_torneig) VALUES
 (1, 'Admin', true),
@@ -47,6 +42,11 @@ INSERT INTO public.rol (id_rol, nom, permet_torneig) VALUES
 INSERT INTO public.ronda (id_ronda, id_torneig, estat, id_emparallent) VALUES
 (1, 1, 'Completed', 1),
 (2, 1, 'Ongoing', 2);
+
+-- Insert into resultat
+INSERT INTO public.resultat (id_resultat, id_ronda, id_usuari_guanyador) VALUES
+(1, 1, 1),
+(2, 2, 2);
 
 -- Insert into subscripcio
 INSERT INTO public.subscripcio (id_subscripcio, id_usuari, data_inici, data_final, tipus, estat) VALUES
