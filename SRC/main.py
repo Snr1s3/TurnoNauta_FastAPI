@@ -20,8 +20,6 @@ from .routers.usuaris import *
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 ##################################### GET METHODS #####################################
 @app.get("/")
