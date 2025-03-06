@@ -3,7 +3,7 @@ from psycopg2 import pool
 
 # Configura la conexión a PostgreSQL
 db_config = {
-    'host': '127.0.0.1',  
+    'host': '172.17.0.2',  
     'user': 'postgres',
     'password': 'pirineus',
     'database': 'turnonauta',
