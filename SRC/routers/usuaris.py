@@ -23,6 +23,7 @@ def verify_user_credentials(username: str, password: str):
     try:
         cursor.execute("SELECT * FROM usuaris WHERE username = %s AND contrasenya = %s", (username, password))
         user = cursor.fetchone()
+        print(user)
         if user:
             return user
         else:
