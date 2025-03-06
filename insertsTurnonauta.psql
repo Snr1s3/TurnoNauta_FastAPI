@@ -1,7 +1,17 @@
+-- Insert into usuaris
+INSERT INTO public.usuaris (id_usuaris, rol, username, email, bio, telefono, contrasenya, rang, data_de_registre) VALUES
+(1, 1, 'user1', 'user1@example.com', 'Bio of user1', '1234567890', 'password1', 1, '2025-01-01'),
+(2, 2, 'user2', 'user2@example.com', 'Bio of user2', '0987654321', 'password2', 2, '2025-01-02');
+
+-- Insert into torneig
+INSERT INTO public.torneig (id_torneig, nom, joc, usuari_organitzador, competitiu, virtual, format, premi, data_d_inici, data_final) VALUES
+(1, 'Tournament A', 'Game A', 1, true, false, 'Format A', 'Prize A', '2025-01-01', '2025-01-31'),
+(2, 'Tournament B', 'Game B', 2, false, true, 'Format B', 'Prize B', '2025-02-01', '2025-02-28');
+
 -- Insert into emparallaments
 INSERT INTO public.emparallaments (id_emperallent, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2) VALUES
 (1, 1, 'Win', 2, 'Lose'),
-(2, 3, 'Lose', 4, 'Win');
+(2, 1, 'Lose', 2, 'Win');
 
 -- Insert into estadistiques
 INSERT INTO public.estadistiques (id_estats, id_usuari, partides_jugades, partides_guanyades, tornejos_jugats, tornejos_guanyats) VALUES
@@ -26,7 +36,7 @@ INSERT INTO public.rang (id_rang, nom, descripcio) VALUES
 -- Insert into resultat
 INSERT INTO public.resultat (id_resultat, id_ronda, id_usuari_guanyador) VALUES
 (1, 1, 1),
-(2, 2, 4);
+(2, 2, 2);
 
 -- Insert into rol
 INSERT INTO public.rol (id_rol, nom, permet_torneig) VALUES
@@ -42,13 +52,3 @@ INSERT INTO public.ronda (id_ronda, id_torneig, estat, id_emparallent) VALUES
 INSERT INTO public.subscripcio (id_subscripcio, id_usuari, data_inici, data_final, tipus, estat) VALUES
 (1, 1, '2025-01-01', '2025-12-31', 'Premium', 'Active'),
 (2, 2, '2025-01-01', '2025-06-30', 'Basic', 'Expired');
-
--- Insert into torneig
-INSERT INTO public.torneig (id_torneig, nom, joc, usuari_organitzador, competitiu, virtual, format, premi, data_d_inici, data_final) VALUES
-(1, 'Tournament A', 'Game A', 1, true, false, 'Format A', 'Prize A', '2025-01-01', '2025-01-31'),
-(2, 'Tournament B', 'Game B', 2, false, true, 'Format B', 'Prize B', '2025-02-01', '2025-02-28');
-
--- Insert into usuaris
-INSERT INTO public.usuaris (id_usuaris, rol, username, email, bio, telefono, contrasenya, rang, data_de_registre) VALUES
-(1, 1, 'user1', 'user1@example.com', 'Bio of user1', '1234567890', 'password1', 1, '2025-01-01'),
-(2, 2, 'user2', 'user2@example.com', 'Bio of user2', '0987654321', 'password2', 2, '2025-01-02');
