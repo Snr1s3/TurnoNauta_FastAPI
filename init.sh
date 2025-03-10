@@ -1,3 +1,4 @@
 #!/bin/bash
-source ./TurnoNauta_FastAPI/venv/bin/activate
-uvicorn SRC.main:app --reload
+source ./venv/bin/activate
+
+./venv/bin/uvicorn SRC.main:app --reload --host 0.0.0.0 --port 8000
