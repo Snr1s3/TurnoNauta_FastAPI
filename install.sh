@@ -9,4 +9,6 @@ source ./venv/bin/activate
 
 pip install -r ./requirements.txt
 
+pip install --upgrade pip
+
 bash ./init.sh

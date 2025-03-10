@@ -1,4 +1,4 @@
-#!/home/sunrise/practiques/TurnoNauta_FastAPI/venv/bin/python3
+#!/home/snr1s3/practiques/TurnoNauta_FastAPI/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
