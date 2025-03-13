@@ -19,5 +19,5 @@ openssl req -x509 -newkey rsa:4096 -keyout ./TurnoNauta_FastAPI/SRC/ssl/key.pem 
 
 ## Links
 
-- [MOBIL]([https://github.com/Snr1s3/TurnoNauta_FastAPI.git](https://github.com/Snr1s3/Turnonauta.git))
+- [MOBIL](https://github.com/Snr1s3/Turnonauta.git))
 - [WEB](https://github.com/EdwindanielTIC/web_TurnoNauta.git)
