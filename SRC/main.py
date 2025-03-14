@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from .client import get_db_connection, release_db_connection
 from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris
 from datetime import date
-
+from .schemas import LoginRequest
 
 from .routers.emparellaments import *
 from .routers.estadistiques import *
