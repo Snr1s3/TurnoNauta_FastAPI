@@ -75,7 +75,12 @@ def get_tornejos_all():
 def get_usuaris_all():
     return get_usuaris()
 
-##################################### POST METHODS #####################################
+##################################### Login #####################################
 @app.get("/login")
 def login(username: str, password: str):
     return verify_user_credentials(username, password)
+
+##################################### Pantall Benvinguda #####################################
+@app.get("/user_statistics/{user_id}", response_model=UserStatistics)
+def get_user_statistics(user_id: int):
+    return verify_user_statistics(user_id)
