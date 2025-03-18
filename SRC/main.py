@@ -81,6 +81,6 @@ def login(username: str, password: str):
     return verify_user_credentials(username, password)
 
 ##################################### Pantall Benvinguda #####################################
-@app.get("/user_statistics/{user_id}", response_model=UserStatistics)
+@app.get("/user_statistics/{user_id}")
 def get_user_statistics(user_id: int):
     return verify_user_statistics(user_id)
