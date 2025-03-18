@@ -77,5 +77,5 @@ def get_usuaris_all():
 
 ##################################### POST METHODS #####################################
 @app.get("/login")
-def login(login_request: LoginRequest):
-    return verify_user_credentials(login_request.username, login_request.password)
+def login(username: str, password: str):
+    return verify_user_credentials(username, password)
