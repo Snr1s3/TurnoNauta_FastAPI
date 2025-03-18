@@ -79,5 +79,4 @@ def get_usuaris_all():
 @app.post("/login")
 def login(login_request: LoginRequest):
     user = verify_user_credentials(login_request.username, login_request.password)
-        print(user)
     return {"message": "Login successful", "user": user}
