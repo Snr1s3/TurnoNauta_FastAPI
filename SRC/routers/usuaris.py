@@ -50,7 +50,7 @@ def verify_user_statistics(id_usuaris: int):
                 (SELECT COUNT(*) FROM emparellaments WHERE (id_usuari1 = %s AND resultat_usuari_1 = 'Win') OR (id_usuari2 = %s AND resultat_usuari_2 = 'Win')) AS rounds_won,
                 (SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s) AS tournaments_played,
                 (SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s AND victories > derrotes) AS tournaments_won
-        """, (id_usuaris,id_usuaris,id_usuaris,id_usuaris,id_usuaris,id_usuaris))
+        """, (id_usuaris, id_usuaris, id_usuaris, id_usuaris, id_usuaris, id_usuaris))
         stats = cursor.fetchone()
 
         return UserStatistics(

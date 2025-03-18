@@ -18,3 +18,5 @@ def get_db_connection():
 
 def release_db_connection(conn):
     db_pool.putconn(conn)
+
+    #psql -h 172.17.0.2 -U turnonauta -d turnonauta -f ./insertsTurnonauta.psql
