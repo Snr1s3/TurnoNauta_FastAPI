@@ -21,15 +21,13 @@ def verify_user_credentials(username: str, password: str):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute("SELECT * FROM usuaris WHERE username = %s AND contrasenya = %s", (username, password))
+        cursor.execute("SELECT id_usuaris FROM usuaris WHERE username = %s AND contrasenya = %s", (username, password))
         user = cursor.fetchone()
         if user:
-            return user
+            return user['id_usuaris']
         else:
-            print("Usuari o contrasenya incorrectes")
             raise HTTPException(status_code=401, detail="Usuari o contrasenya incorrectes")
     except Exception as e:
-        print(str(e))
         raise HTTPException(status_code=400, detail=str(e))
     finally:
         cursor.close()
