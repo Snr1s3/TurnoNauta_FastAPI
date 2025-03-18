@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from typing import List
 from fastapi.staticfiles import StaticFiles
 from .client import get_db_connection, release_db_connection
-from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris
+from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris, UserStatistics
 from datetime import date
 from .schemas import LoginRequest
 

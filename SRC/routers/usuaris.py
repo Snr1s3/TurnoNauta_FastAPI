@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from ..client import get_db_connection, release_db_connection
 from psycopg2.extras import RealDictCursor
-from ..schemas import LoginRequest
+from ..models import UserStatistics
 
 def get_usuaris():
     conn = get_db_connection()
@@ -38,7 +38,7 @@ def verify_user_statistics(id_usuaris: int):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         # Retrieve user information
-        cursor.execute("SELECT id_usuaris, username FROM usuaris WHERE id_usuaris = %s", (user_id,))
+        cursor.execute("SELECT id_usuaris, username FROM usuaris WHERE id_usuaris = %s", (id_usuaris,))
         user = cursor.fetchone()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
@@ -50,7 +50,7 @@ def verify_user_statistics(id_usuaris: int):
                 (SELECT COUNT(*) FROM emparellaments WHERE (id_usuari1 = %s AND resultat_usuari_1 = 'Win') OR (id_usuari2 = %s AND resultat_usuari_2 = 'Win')) AS rounds_won,
                 (SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s) AS tournaments_played,
                 (SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s AND victories > derrotes) AS tournaments_won
-        """, (user_id, user_id, user_id, user_id, user_id, user_id))
+        """, (id_usuaris,id_usuaris,id_usuaris,id_usuaris,id_usuaris,id_usuaris))
         stats = cursor.fetchone()
 
         return UserStatistics(

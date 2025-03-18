@@ -84,3 +84,11 @@ class Usuaris(BaseModel):
     contrasenya: str
     rang: Optional[int]
     data_de_registre: Optional[date]
+
+class UserStatistics(BaseModel):
+    id: int
+    username: str
+    rounds_played: int
+    rounds_won: int
+    tournaments_played: int
+    tournaments_won: int
