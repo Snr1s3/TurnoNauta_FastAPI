@@ -19,7 +19,7 @@ def get_tournamets_played(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute("SELECT * FROM Puntuacio WHERE id_usuari = %s;"),(user_id)
+        cursor.execute("SELECT t.* FROM Torneig t JOIN Puntuacio p ON t.id_torneig = p.id_torneig WHERE p.id_usuari = %s;"),(user_id)
         torneig = cursor.fetchall()
         return torneig
     except Exception as e:
