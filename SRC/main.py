@@ -32,7 +32,7 @@ def get_user_statistics(user_id: int):
     return verify_user_statistics(user_id)
 
 #####################################   Tornejos Jugats  #####################################
-@app.get("/tournaments_played")
+@app.get("/tournaments_played", response_model=List[Torneig])
 def get_tournaments_played(user_id: int):
     return get_tournaments_played(user_id)
 
