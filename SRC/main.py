@@ -22,17 +22,20 @@ app = FastAPI()
 
 
 #####################################       Login        #####################################
+
 @app.get("/login")
 def login(username: str, password: str):
     return verify_user_credentials(username, password)
 
 ##################################### Pantall Benvinguda #####################################
+
 @app.get("/user_statistics")
 def get_user_statistics(user_id: int):
     return verify_user_statistics(user_id)
 
 #####################################   Tornejos Jugats  #####################################
-@app.get("/tournaments_played/{user_id}", response_model=List[Torneig])
+
+@app.get("/tournaments_played", response_model=List[Torneig])
 def get_tournaments_played_endpoint(user_id: int):
     return get_tournaments_played(user_id)
 

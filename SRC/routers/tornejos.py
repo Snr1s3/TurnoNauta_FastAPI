@@ -1,6 +1,8 @@
 from fastapi import HTTPException
 from ..client import get_db_connection, release_db_connection
 from psycopg2.extras import RealDictCursor
+from ..models import Torneig
+from typing import List
 
 def get_torneig():
     conn = get_db_connection()
@@ -15,7 +17,7 @@ def get_torneig():
         cursor.close()
         release_db_connection(conn)
 
-def get_tournaments_played(user_id: int):
+def get_tournaments_played(user_id: int) -> List[Torneig]:
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -26,7 +28,7 @@ def get_tournaments_played(user_id: int):
             WHERE p.id_usuari = %s
         """, (user_id,))
         tournaments = cursor.fetchall()
-        return tournaments
+        return [Torneig(**tournament) for tournament in tournaments]
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
