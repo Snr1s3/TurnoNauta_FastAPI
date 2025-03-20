@@ -21,6 +21,38 @@ from .routers.usuaris import *
 app = FastAPI()
 
 
+#####################################       Login        #####################################
+@app.get("/login")
+def login(username: str, password: str):
+    return verify_user_credentials(username, password)
+
+##################################### Pantall Benvinguda #####################################
+@app.get("/user_statistics")
+def get_user_statistics(user_id: int):
+    return verify_user_statistics(user_id)
+
+#####################################   Tornejos Jugats  #####################################
+@app.get("/tournaments_played")
+def get_tournaments_played(user_id: int):
+    return get_tournaments_played(user_id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 ##################################### GET METHODS #####################################
 @app.get("/")
 def read_docs():
@@ -74,13 +106,4 @@ def get_tornejos_all():
 @app.get("/usuaris/", response_model=List[Usuaris])
 def get_usuaris_all():
     return get_usuaris()
-
-##################################### Login #####################################
-@app.get("/login")
-def login(username: str, password: str):
-    return verify_user_credentials(username, password)
-
-##################################### Pantall Benvinguda #####################################
-@app.get("/user_statistics")
-def get_user_statistics(user_id: int):
-    return verify_user_statistics(user_id)
+"""
