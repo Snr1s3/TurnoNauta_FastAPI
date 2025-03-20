@@ -15,13 +15,18 @@ def get_torneig():
         cursor.close()
         release_db_connection(conn)
 
-def get_tournamets_played(user_id: int):
+def get_tournaments_played(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute("SELECT t.* FROM Torneig t JOIN Puntuacio p ON t.id_torneig = p.id_torneig WHERE p.id_usuari = %s;"),(user_id)
-        torneig = cursor.fetchall()
-        return torneig
+        cursor.execute("""
+            SELECT t.* 
+            FROM Torneig t
+            JOIN Puntuacio p ON t.id_torneig = p.id_torneig
+            WHERE p.id_usuari = %s
+        """, (user_id,))
+        tournaments = cursor.fetchall()
+        return tournaments
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
