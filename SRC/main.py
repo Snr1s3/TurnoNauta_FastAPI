@@ -41,11 +41,6 @@ def get_tournaments_played_endpoint(user_id: int):
 
 
 
-@app.get("/estadistiques/", response_model=List[Estadistiques])
-def get_estadistiques_all():
-    return get_estadistiques()
-
-
 
 
 
