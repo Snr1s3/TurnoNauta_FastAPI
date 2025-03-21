@@ -99,6 +99,7 @@ CREATE TABLE public.torneig (
     competitiu boolean,
     virtual boolean,
     format character varying(50),
+    num_jugadors integer,
     premi character varying(100),
     data_d_inici date,
     data_final date
