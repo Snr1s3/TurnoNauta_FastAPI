@@ -45,17 +45,23 @@ def verify_user_statistics(id_usuaris: int):
 
         # Retrieve user statistics
         cursor.execute("""
-            SELECT * FROM emparallaments WHERE id_usuari = %s
-        """, (id_usuaris))
+            SELECT u.username, e.partides_jugades, e.partides_guanyades, e.tornejos_jugats, e.tornejos_guanyats
+            FROM usuaris u
+            JOIN estadistiques e ON u.id_usuaris = e.id_usuari
+            WHERE u.id_usuaris = %s
+        """, (id_usuaris,))
         stats = cursor.fetchone()
 
+        if not stats:
+            raise HTTPException(status_code=404, detail="User or statistics not found")
+
         return UserStatistics(
-            id=user['id_usuaris'],
-            username=user['username'],
-            rounds_played=stats['rounds_played'],
-            rounds_won=stats['rounds_won'],
-            tournaments_played=stats['tournaments_played'],
-            tournaments_won=stats['tournaments_won']
+            id=id_usuaris,
+            username=stats['username'],
+            rounds_played=stats['partides_jugades'],
+            rounds_won=stats['partides_guanyades'],
+            tournaments_played=stats['tornejos_jugats'],
+            tournaments_won=stats['tornejos_guanyats']
         )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
