@@ -41,7 +41,9 @@ def get_tournaments_played_endpoint(user_id: int):
 
 
 
-
+@app.get("/estadistiques/", response_model=List[Estadistiques])
+def get_estadistiques_all():
+    return get_estadistiques()
 
 
 
@@ -70,9 +72,7 @@ def read_docs():
 def get_emparellaments_all():
     return get_emparellaments()
 
-@app.get("/estadistiques/", response_model=List[Estadistiques])
-def get_estadistiques_all():
-    return get_estadistiques()
+
 
 @app.get("/formats/", response_model=List[Format])
 def get_formats_all():

@@ -71,6 +71,7 @@ class Torneig(BaseModel):
     virtual: bool
     format: Optional[str]
     premi: Optional[str]
+    num_jugadors: Optional[int]
     data_d_inici: date
     data_final: Optional[date]
 

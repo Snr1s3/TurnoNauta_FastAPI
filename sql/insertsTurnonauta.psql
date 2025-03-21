@@ -1,54 +1,67 @@
--- Insert into usuaris
-INSERT INTO public.usuaris (id_usuaris, rol, username, email, bio, telefono, contrasenya, rang, data_de_registre) VALUES
-(1, 1, 'user1', 'user1@example.com', 'Bio of user1', '1234567890', 'password1', 1, '2025-01-01'),
-(2, 2, 'user2', 'user2@example.com', 'Bio of user2', '0987654321', 'password2', 2, '2025-01-02');
+-- Insert data into the `usuaris` table
+INSERT INTO public.usuaris (id_usuaris, rol, username, email, bio, telefono, contrasenya, rang, data_de_registre)
+VALUES
+(1, 1, 'admin', 'admin@example.com', 'Administrator account', '123456789', 'password123', 1, '2025-01-01'),
+(2, 2, 'player1', 'player1@example.com', 'Player 1 bio', '987654321', 'password123', 2, '2025-01-02'),
+(3, 2, 'player2', 'player2@example.com', 'Player 2 bio', '555555555', 'password123', 2, '2025-01-03');
 
--- Insert into torneig
-INSERT INTO public.torneig (id_torneig, nom, joc, usuari_organitzador, competitiu, virtual, format, premi, data_d_inici, data_final) VALUES
-(1, 'Tournament A', 'Game A', 1, true, false, 'Format A', 'Prize A', '2025-01-01', '2025-01-31'),
-(2, 'Tournament B', 'Game B', 2, false, true, 'Format B', 'Prize B', '2025-02-01', '2025-02-28');
+-- Insert data into the `torneig` table
+INSERT INTO public.torneig (id_torneig, nom, joc, usuari_organitzador, competitiu, virtual, format, num_jugadors, premi, data_d_inici, data_final)
+VALUES
+(1, 'Tournament 1', 'Chess', 1, TRUE, FALSE, 'Swiss', 16, 'Trophy', '2025-03-01', '2025-03-05'),
+(2, 'Tournament 2', 'MTG', 2, TRUE, TRUE, 'Round Robin', 8, 'Gift Card', '2025-03-10', '2025-03-15');
 
--- Insert into emparallaments
-INSERT INTO public.emparallaments (id_emperallent, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2) VALUES
-(1, 1, 'Win', 2, 'Lose'),
-(2, 1, 'Lose', 2, 'Win');
+-- Insert data into the `puntuacio` table
+INSERT INTO public.puntuacio (id_puntuacio, id_torneig, id_usuari, victories, derrotes, punts)
+VALUES
+(1, 1, 2, 3, 1, 9),
+(2, 1, 3, 2, 2, 6),
+(3, 2, 2, 4, 0, 12);
 
--- Insert into estadistiques
-INSERT INTO public.estadistiques (id_estats, id_usuari, partides_jugades, partides_guanyades, tornejos_jugats, tornejos_guanyats) VALUES
-(1, 1, 10, 7, 3, 1),
-(2, 2, 8, 5, 2, 0);
+-- Insert data into the `emparallaments` table
+INSERT INTO public.emparallaments (id_emperallent, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2)
+VALUES
+(1, 2, 'Win', 3, 'Lose'),
+(2, 3, 'Win', 2, 'Lose');
 
--- Insert into format
-INSERT INTO public.format (id_format, nom, joc, jugadors, temps, regles) VALUES
-(1, 'Format A', 'Game A', 4, '01:00:00', 'Rule A'),
-(2, 'Format B', 'Game B', 2, '00:30:00', 'Rule B');
+-- Insert data into the `estadistiques` table
+INSERT INTO public.estadistiques (id_estats, id_usuari, partides_jugades, partides_guanyades, tornejos_jugats, tornejos_guanyats)
+VALUES
+(1, 2, 10, 6, 2, 1),
+(2, 3, 8, 4, 2, 0);
 
--- Insert into puntuacio
-INSERT INTO public.puntuacio (id_puntuacio, id_torneig, id_usuari, victories, derrotes, punts) VALUES
-(1, 1, 1, 5, 2, 15),
-(2, 1, 2, 3, 4, 9);
+-- Insert data into the `format` table
+INSERT INTO public.format (id_format, nom, joc, jugadors, temps, regles)
+VALUES
+(1, 'Swiss', 'Chess', 16, '01:00:00', 'Standard chess rules'),
+(2, 'Round Robin', 'MTG', 8, '00:30:00', 'Standard MTG rules');
 
--- Insert into rang
-INSERT INTO public.rang (id_rang, nom, descripcio) VALUES
+-- Insert data into the `rang` table
+INSERT INTO public.rang (id_rang, nom, descripcio)
+VALUES
 (1, 'Beginner', 'New player'),
-(2, 'Expert', 'Experienced player');
+(2, 'Intermediate', 'Experienced player');
 
--- Insert into rol
-INSERT INTO public.rol (id_rol, nom, permet_torneig) VALUES
-(1, 'Admin', true),
-(2, 'Player', false);
+-- Insert data into the `resultat` table
+INSERT INTO public.resultat (id_resultat, id_ronda, id_usuari_guanyador)
+VALUES
+(1, 1, 2),
+(2, 2, 3);
 
--- Insert into ronda
-INSERT INTO public.ronda (id_ronda, id_torneig, estat, id_emparallent) VALUES
+-- Insert data into the `rol` table
+INSERT INTO public.rol (id_rol, nom, permet_torneig)
+VALUES
+(1, 'Admin', TRUE),
+(2, 'Player', FALSE);
+
+-- Insert data into the `ronda` table
+INSERT INTO public.ronda (id_ronda, id_torneig, estat, id_emparallent)
+VALUES
 (1, 1, 'Completed', 1),
-(2, 1, 'Ongoing', 2);
+(2, 2, 'In Progress', 2);
 
--- Insert into resultat
-INSERT INTO public.resultat (id_resultat, id_ronda, id_usuari_guanyador) VALUES
-(1, 1, 1),
-(2, 2, 2);
-
--- Insert into subscripcio
-INSERT INTO public.subscripcio (id_subscripcio, id_usuari, data_inici, data_final, tipus, estat) VALUES
-(1, 1, '2025-01-01', '2025-12-31', 'Premium', 'Active'),
-(2, 2, '2025-01-01', '2025-06-30', 'Basic', 'Expired');
+-- Insert data into the `subscripcio` table
+INSERT INTO public.subscripcio (id_subscripcio, id_usuari, data_inici, data_final, tipus, estat)
+VALUES
+(1, 2, '2025-01-01', '2025-12-31', 'Premium', 'Active'),
+(2, 3, '2025-02-01', '2025-12-31', 'Basic', 'Active');
