@@ -39,6 +39,11 @@ def get_user_statistics(user_id: int):
 def get_tournaments_played_endpoint(user_id: int):
     return get_tournaments_played(user_id)
 
+#####################################     User per ID    #####################################
+
+@app.get("/user_by_id", response_model=Usuaris)
+def get_user_by_id(user_id: int):
+    return get_usuari_id(user_id)
 
 
 

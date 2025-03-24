@@ -16,6 +16,21 @@ def get_usuaris():
         cursor.close()
         release_db_connection(conn)
 
+def get_usuari_id(user_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("SELECT * FROM usuaris WHERE id_usuaris = %s", (user_id))
+        user = cursor.fetchone()
+        if user:
+            return user
+        else:
+            return -1
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
 
 def verify_user_credentials(username: str, password: str):
     conn = get_db_connection()
