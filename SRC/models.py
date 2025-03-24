@@ -93,3 +93,7 @@ class UserStatistics(BaseModel):
     rounds_won: int
     tournaments_played: int
     tournaments_won: int
+
+class UserWithPoints(BaseModel):
+    username: str
+    punts: int

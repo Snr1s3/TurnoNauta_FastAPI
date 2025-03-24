@@ -45,6 +45,12 @@ def get_tournaments_played_endpoint(user_id: int):
 def get_user_by_id(user_id: int):
     return get_usuari_id(user_id)
 
+#####################################  Puntuacio Torneig #####################################
+
+@app.get("/users_in_tournament", response_model=List[UserWithPoints])
+def get_users_in_tournament(torneig_id: int):
+    return get_users_points(torneig_id)
+
 
 
 
