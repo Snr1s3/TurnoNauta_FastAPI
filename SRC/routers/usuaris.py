@@ -20,12 +20,13 @@ def get_usuari_id(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
+        # Pass `user_id` as a tuple by adding a comma after it
         cursor.execute("SELECT * FROM usuaris WHERE id_usuaris = %s", (user_id,))
         user = cursor.fetchone()
         if user:
             return user
         else:
-            return -1
+            raise HTTPException(status_code=404, detail="User not found")
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:

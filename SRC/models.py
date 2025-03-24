@@ -76,12 +76,12 @@ class Torneig(BaseModel):
     data_final: Optional[date]
 
 class Usuaris(BaseModel):
-    id_usuaris: Optional[int]
+    id_usuaris: int
     rol: Optional[int]
     username: str
     email: str
     bio: Optional[str]
-    telefon: Optional[str]
+    telefon: Optional[str]  # Marked as optional
     contrasenya: str
     rang: Optional[int]
     data_de_registre: Optional[date]
