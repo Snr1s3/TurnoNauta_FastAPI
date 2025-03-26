@@ -100,6 +100,10 @@ def add_usuari(user: NewUser):
             INSERT INTO estadistiques (id_usuari, partides_jugades, partides_guanyades, tornejos_jugats, tornejos_guanyats)
             VALUES (%s, 0, 0, 0, 0);
         """, (new_user['id_usuaris'],))
+        cursor.execute("""
+            INSERT INTO public.subscripcio (id_usuari, data_inici, data_final, tipus, estat)
+            VALUES (%s, NOW(), NOW() + INTERVAL '1 year', 'Basic', 'Active');
+        """, (new_user['id_usuaris'],))
         conn.commit()
         return new_user
     except Exception as e:
