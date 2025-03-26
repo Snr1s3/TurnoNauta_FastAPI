@@ -14,7 +14,32 @@ db_config = {
 db_pool = pool.SimpleConnectionPool(1, 5, **db_config)
 
 def get_db_connection():
-    return db_pool.getconn()
+    conn = db_pool.getconn()
+    try:
+        # Reset sequences when a connection is established
+        cursor = conn.cursor()
+        reset_commands = [
+            "SELECT setval('emparallaments_id_emperallent_seq', COALESCE((SELECT MAX(id_emperallent) FROM public.emparallaments), 1), false);",
+            "SELECT setval('estadistiques_id_estats_seq', COALESCE((SELECT MAX(id_estats) FROM public.estadistiques), 1), false);",
+            "SELECT setval('format_id_format_seq', COALESCE((SELECT MAX(id_format) FROM public.format), 1), false);",
+            "SELECT setval('puntuacio_id_puntuacio_seq', COALESCE((SELECT MAX(id_puntuacio) FROM public.puntuacio), 1), false);",
+            "SELECT setval('rang_id_rang_seq', COALESCE((SELECT MAX(id_rang) FROM public.rang), 1), false);",
+            "SELECT setval('resultat_id_resultat_seq', COALESCE((SELECT MAX(id_resultat) FROM public.resultat), 1), false);",
+            "SELECT setval('rol_id_rol_seq', COALESCE((SELECT MAX(id_rol) FROM public.rol), 1), false);",
+            "SELECT setval('ronda_id_ronda_seq', COALESCE((SELECT MAX(id_ronda) FROM public.ronda), 1), false);",
+            "SELECT setval('subscripcio_id_subscripcio_seq', COALESCE((SELECT MAX(id_subscripcio) FROM public.subscripcio), 1), false);",
+            "SELECT setval('torneig_id_torneig_seq', COALESCE((SELECT MAX(id_torneig) FROM public.torneig), 1), false);",
+            "SELECT setval('usuaris_id_usuaris_seq', COALESCE((SELECT MAX(id_usuaris) FROM public.usuaris), 1), false);"
+        ]
+        for command in reset_commands:
+            cursor.execute(command)
+        conn.commit()
+    except Exception as e:
+        print(f"Error resetting sequences: {e}")
+        conn.rollback()
+    finally:
+        cursor.close()
+    return conn
 
 def release_db_connection(conn):
     db_pool.putconn(conn)
