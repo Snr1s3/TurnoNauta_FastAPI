@@ -96,6 +96,10 @@ def add_usuari(user: NewUser):
             RETURNING *;
         """, (user.username, user.telefon, user.email, user.contrasenya))
         new_user = cursor.fetchone()
+        cursor.execute("""
+            INSERT INTO estadistiques (id_usuari, partides_jugades, partides_guanyades, tornejos_jugats, tornejos_guanyats)
+            VALUES (%s, 0, 0, 0, 0);
+        """, (new_user['id_usuaris'],))
         conn.commit()
         return new_user
     except Exception as e:

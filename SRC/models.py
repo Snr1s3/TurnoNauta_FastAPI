@@ -81,7 +81,7 @@ class Usuaris(BaseModel):
     username: str
     email: str
     bio: Optional[str]
-    telefono: Optional[str]  # Marked as optional
+    telefono: Optional[str]  
     contrasenya: str
     rang: Optional[int]
     data_de_registre: Optional[date]
