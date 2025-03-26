@@ -213,3 +213,16 @@ ALTER TABLE public.usuaris ADD CONSTRAINT usuaris_username_unique UNIQUE (userna
 
 -- Add UNIQUE constraint to the `nom` column in the `torneig` table
 ALTER TABLE public.torneig ADD CONSTRAINT torneig_nom_unique UNIQUE (nom);
+
+-- Set default values for primary key columns using their associated sequences
+ALTER TABLE public.emparallaments ALTER COLUMN id_emperallent SET DEFAULT nextval('public.emparallaments_id_emperallent_seq');
+ALTER TABLE public.estadistiques ALTER COLUMN id_estats SET DEFAULT nextval('public.estadistiques_id_estats_seq');
+ALTER TABLE public.format ALTER COLUMN id_format SET DEFAULT nextval('public.format_id_format_seq');
+ALTER TABLE public.puntuacio ALTER COLUMN id_puntuacio SET DEFAULT nextval('public.puntuacio_id_puntuacio_seq');
+ALTER TABLE public.rang ALTER COLUMN id_rang SET DEFAULT nextval('public.rang_id_rang_seq');
+ALTER TABLE public.resultat ALTER COLUMN id_resultat SET DEFAULT nextval('public.resultat_id_resultat_seq');
+ALTER TABLE public.rol ALTER COLUMN id_rol SET DEFAULT nextval('public.rol_id_rol_seq');
+ALTER TABLE public.ronda ALTER COLUMN id_ronda SET DEFAULT nextval('public.ronda_id_ronda_seq');
+ALTER TABLE public.subscripcio ALTER COLUMN id_subscripcio SET DEFAULT nextval('public.subscripcio_id_subscripcio_seq');
+ALTER TABLE public.torneig ALTER COLUMN id_torneig SET DEFAULT nextval('public.torneig_id_torneig_seq');
+ALTER TABLE public.usuaris ALTER COLUMN id_usuaris SET DEFAULT nextval('public.usuaris_id_usuaris_seq');
