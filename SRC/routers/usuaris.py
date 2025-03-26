@@ -91,8 +91,8 @@ def add_usuari(user: NewUser):
     try:
         # Insert the new user into the database
         cursor.execute("""
-            INSERT INTO usuaris (username, telefono, email, contrasenya, data_de_registre)
-            VALUES (%s, %s, %s, %s, NOW())
+            INSERT INTO usuaris (rol, username, telefono, email, contrasenya, rang, data_de_registre)
+            VALUES (1,%s, %s, %s, %s, 1, NOW())
             RETURNING *;
         """, (user.username, user.telefon, user.email, user.contrasenya))
         new_user = cursor.fetchone()
