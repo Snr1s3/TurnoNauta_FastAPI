@@ -97,3 +97,9 @@ class UserStatistics(BaseModel):
 class UserWithPoints(BaseModel):
     username: str
     punts: int
+
+class NewUser(BaseModel):
+    username: str
+    telefon: str
+    email: str
+    contrasenya: str

@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from typing import List
 from fastapi.staticfiles import StaticFiles
 from .client import get_db_connection, release_db_connection
-from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris, UserStatistics
+from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris, UserStatistics, NewUser
 from datetime import date
 from .schemas import LoginRequest
 
@@ -45,14 +45,23 @@ def get_tournaments_played_endpoint(user_id: int):
 def get_user_by_id(user_id: int):
     return get_usuari_id(user_id)
 
+#####################################   Torneig per ID   #####################################
+
+@app.get("/tournament_by_id", response_model=Torneig)
+def get_tournament_by_id(torneig_id: int):
+    return get_tournament_id(torneig_id)
+
 #####################################  Puntuacio Torneig #####################################
 
 @app.get("/users_in_tournament", response_model=List[UserWithPoints])
 def get_users_in_tournament(torneig_id: int):
     return get_users_points(torneig_id)
 
+#####################################   Afegir Usuari    #####################################
 
-
+@app.post("/add_user", response_model=Usuaris)
+def add_user(user: NewUser):
+    return add_usuari(user)
 
 
 

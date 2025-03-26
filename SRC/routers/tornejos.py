@@ -4,11 +4,11 @@ from psycopg2.extras import RealDictCursor
 from ..models import Torneig
 from typing import List
 
-def get_torneig():
+def get_tournament_id(torneig_id) -> Torneig:
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute("SELECT * FROM Torneig;")
+        cursor.execute("SELECT * FROM Torneig where id_torneig = %s;",(torneig_id,))
         torneig = cursor.fetchall()
         return torneig
     except Exception as e:

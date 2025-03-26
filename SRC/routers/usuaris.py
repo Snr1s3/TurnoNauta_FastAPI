@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from ..client import get_db_connection, release_db_connection
 from psycopg2.extras import RealDictCursor
-from ..models import UserStatistics
+from ..models import UserStatistics, NewUser
 
 def get_usuaris():
     conn = get_db_connection()
@@ -79,6 +79,25 @@ def verify_user_statistics(id_usuaris: int):
             tournaments_played=stats['tornejos_jugats'],
             tournaments_won=stats['tornejos_guanyats']
         )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+
+def add_usuari(user: NewUser):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        # Insert the new user into the database
+        cursor.execute("""
+            INSERT INTO usuaris (username, telefono, email, contrasenya, data_de_registre)
+            VALUES (%s, %s, %s, %s, NOW())
+            RETURNING *;
+        """, (user.username, user.telefon, user.email, user.contrasenya))
+        new_user = cursor.fetchone()
+        conn.commit()
+        return new_user
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
