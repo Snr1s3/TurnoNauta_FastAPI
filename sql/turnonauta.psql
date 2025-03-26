@@ -207,3 +207,9 @@ GRANT ALL ON TABLE public.ronda TO turnonauta;
 GRANT ALL ON TABLE public.subscripcio TO turnonauta;
 GRANT ALL ON TABLE public.torneig TO turnonauta;
 GRANT ALL ON TABLE public.usuaris TO turnonauta;
+
+-- Add UNIQUE constraint to the `username` column in the `usuaris` table
+ALTER TABLE public.usuaris ADD CONSTRAINT usuaris_username_unique UNIQUE (username);
+
+-- Add UNIQUE constraint to the `nom` column in the `torneig` table
+ALTER TABLE public.torneig ADD CONSTRAINT torneig_nom_unique UNIQUE (nom);
