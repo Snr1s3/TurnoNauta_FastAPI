@@ -9,7 +9,7 @@ def get_tournament_id(torneig_id) -> Torneig:
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute("SELECT * FROM Torneig where id_torneig = %s;",(torneig_id,))
-        torneig = cursor.fetchall()
+        torneig = cursor.fetchone()
         return torneig
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
