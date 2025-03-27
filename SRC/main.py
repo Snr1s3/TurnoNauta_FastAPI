@@ -23,43 +23,43 @@ app = FastAPI()
 
 #####################################       Login        #####################################
 
-@app.get("/login")
+@app.get("/users/login")
 def login(username: str, password: str):
     return verify_user_credentials(username, password)
 
 ##################################### Pantall Benvinguda #####################################
 
-@app.get("/user_statistics")
+@app.get("/users/user_statistics")
 def get_user_statistics(user_id: int):
     return verify_user_statistics(user_id)
 
 #####################################   Tornejos Jugats  #####################################
 
-@app.get("/tournaments_played", response_model=List[Torneig])
+@app.get("/tournaments/tournaments_played", response_model=List[Torneig])
 def get_tournaments_played_endpoint(user_id: int):
     return get_tournaments_played(user_id)
 
 #####################################     User per ID    #####################################
 
-@app.get("/user_by_id", response_model=Usuaris)
+@app.get("/users/get_by_id", response_model=Usuaris)
 def get_user_by_id(user_id: int):
     return get_usuari_id(user_id)
 
 #####################################   Torneig per ID   #####################################
 
-@app.get("/tournament_by_id", response_model=Torneig)
+@app.get("/tournaments/tournament_by_id", response_model=Torneig)
 def get_tournament_by_id(torneig_id: int):
     return get_tournament_id(torneig_id)
 
 #####################################  Puntuacio Torneig #####################################
 
-@app.get("/users_in_tournament", response_model=List[UserWithPoints])
+@app.get("/users/users_in_tournament", response_model=List[UserWithPoints])
 def get_users_in_tournament(torneig_id: int):
     return get_users_points(torneig_id)
 
 #####################################   Afegir Usuari    #####################################
 
-@app.post("/add_user", response_model=Usuaris)
+@app.post("/users/add_user", response_model=Usuaris)
 def add_user(user: NewUser):
     return add_usuari(user)
 
