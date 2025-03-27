@@ -63,16 +63,24 @@ def get_users_in_tournament(torneig_id: int):
 def add_user(user: NewUser):
     return add_usuari(user)
 
+#####################################      Usuaris       #####################################
 
-
-@app.get("/usuaris/", response_model=List[Usuaris])
+@app.get("/users/", response_model=List[Usuaris])
 def get_usuaris_all():
     return get_usuaris()
 
+##################################### Usuaris check nom  #####################################
 
+@app.get("/users/check_username", response_model=bool)
+def check_username_exists(username: str):
+    return check_username(username)
+    
+##################################### Usuaris update nom #####################################
 
-
-
+@app.put("/users/update_name", response_model=Usuaris)
+def update_user_name(user_id: int, new_name: str):
+    return update_username(user_id, new_name)
+    
 
 """
 ##################################### GET METHODS #####################################

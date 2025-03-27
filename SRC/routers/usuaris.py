@@ -111,3 +111,36 @@ def add_usuari(user: NewUser):
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def check_username(username: str):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT EXISTS(SELECT 1 FROM usuaris WHERE username = %s);", (username,))
+        result = cursor.fetchone()
+        return result[0]  
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+
+def update_username(user_id: int ,new_name: str):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "UPDATE usuaris SET username = %s WHERE id_usuaris = %s RETURNING *;",
+            (new_name, user_id)
+        )
+        updated_user = cursor.fetchone()
+        if not updated_user:
+            raise HTTPException(status_code=404, detail="User not found")
+        conn.commit()
+        return get_usuari_id(user_id)  
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
