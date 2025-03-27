@@ -20,6 +20,33 @@ from .routers.usuaris import *
 
 app = FastAPI()
 
+#####################################      FAST AP        #####################################
+
+@app.get("/")
+def read_docs():
+    return {"message": "Turnonauta API"}
+
+@app.get("/docs")
+def read_docs():
+    return {"message": "This is the documentation endpoint."}
+
+#####################################      Usuaris       #####################################
+
+@app.get("/users/", response_model=List[Usuaris])
+def get_usuaris_all():
+    return get_usuaris()
+
+#####################################  Puntuacio Torneig #####################################
+
+@app.get("/users/users_in_tournament", response_model=List[UserWithPoints])
+def get_users_in_tournament(torneig_id: int):
+    return get_users_points(torneig_id)
+
+##################################### Usuaris check nom  #####################################
+
+@app.get("/users/check_username", response_model=bool)
+def check_username_exists(username: str):
+    return check_username(username)
 
 #####################################       Login        #####################################
 
@@ -33,17 +60,17 @@ def login(username: str, password: str):
 def get_user_statistics(user_id: int):
     return verify_user_statistics(user_id)
 
-#####################################   Tornejos Jugats  #####################################
-
-@app.get("/tournaments/tournaments_played", response_model=List[Torneig])
-def get_tournaments_played_endpoint(user_id: int):
-    return get_tournaments_played(user_id)
-
 #####################################     User per ID    #####################################
 
 @app.get("/users/get_by_id", response_model=Usuaris)
 def get_user_by_id(user_id: int):
     return get_usuari_id(user_id)
+
+#####################################   Tornejos Jugats  #####################################
+
+@app.get("/tournaments/tournaments_played", response_model=List[Torneig])
+def get_tournaments_played_endpoint(user_id: int):
+    return get_tournaments_played(user_id)
 
 #####################################   Torneig per ID   #####################################
 
@@ -51,46 +78,26 @@ def get_user_by_id(user_id: int):
 def get_tournament_by_id(torneig_id: int):
     return get_tournament_id(torneig_id)
 
-#####################################  Puntuacio Torneig #####################################
-
-@app.get("/users/users_in_tournament", response_model=List[UserWithPoints])
-def get_users_in_tournament(torneig_id: int):
-    return get_users_points(torneig_id)
-
 #####################################   Afegir Usuari    #####################################
 
 @app.post("/users/add_user", response_model=Usuaris)
 def add_user(user: NewUser):
     return add_usuari(user)
-
-#####################################      Usuaris       #####################################
-
-@app.get("/users/", response_model=List[Usuaris])
-def get_usuaris_all():
-    return get_usuaris()
-
-##################################### Usuaris check nom  #####################################
-
-@app.get("/users/check_username", response_model=bool)
-def check_username_exists(username: str):
-    return check_username(username)
     
 ##################################### Usuaris update nom #####################################
 
 @app.put("/users/update_name", response_model=Usuaris)
 def update_user_name(user_id: int, new_name: str):
     return update_username(user_id, new_name)
-    
 
+#################################### Delete Usuaris  #########################################
+@app.delete("/users/delete_by_id", response_model=bool)
+def delete_user_by_id(user_id: int):
+    return delete_user_id(user_id)
+    
 """
 ##################################### GET METHODS #####################################
-@app.get("/")
-def read_docs():
-    return {"message": "Turnonauta API"}
 
-@app.get("/docs")
-def read_docs():
-    return {"message": "This is the documentation endpoint."}
 
 
 @app.get("/emparellaments/", response_model=List[Emparellaments])
