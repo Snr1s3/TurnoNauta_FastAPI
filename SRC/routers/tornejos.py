@@ -4,13 +4,15 @@ from psycopg2.extras import RealDictCursor
 from ..models import Torneig
 from typing import List
 
-def get_tournament_id(torneig_id) -> Torneig:
+def get_tournament_id(torneig_id: int) -> Torneig:
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute("SELECT * FROM Torneig where id_torneig = %s;",(torneig_id,))
+        cursor.execute("SELECT * FROM Torneig WHERE id_torneig = %s;", (torneig_id,))
         torneig = cursor.fetchone()
-        return torneig
+        if not torneig:
+            raise HTTPException(status_code=404, detail="Tournament not found")
+        return Torneig(**torneig)  # Convert the result to a Torneig object
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
