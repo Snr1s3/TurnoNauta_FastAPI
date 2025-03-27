@@ -65,7 +65,9 @@ def add_user(user: NewUser):
 
 
 
-
+@app.get("/usuaris/", response_model=List[Usuaris])
+def get_usuaris_all():
+    return get_usuaris()
 
 
 
@@ -121,7 +123,5 @@ def get_subscripcions_all():
 def get_tornejos_all():
     return get_torneig()
 
-@app.get("/usuaris/", response_model=List[Usuaris])
-def get_usuaris_all():
-    return get_usuaris()
+
 """
