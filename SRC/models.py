@@ -100,6 +100,6 @@ class UserWithPoints(BaseModel):
 
 class NewUser(BaseModel):
     username: str
-    telefon: str
     email: str
-    contrasenya: str
+    phone: str
+    password: str

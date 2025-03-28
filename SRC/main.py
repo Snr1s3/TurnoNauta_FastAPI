@@ -20,16 +20,6 @@ from .routers.usuaris import *
 
 app = FastAPI()
 
-#####################################      FAST AP        #####################################
-
-@app.get("/")
-def read_docs():
-    return {"message": "Turnonauta API"}
-
-@app.get("/docs")
-def read_docs():
-    return {"message": "This is the documentation endpoint."}
-
 #####################################      Usuaris       #####################################
 
 @app.get("/users/", response_model=List[Usuaris])
@@ -99,6 +89,16 @@ def delete_user_by_id(user_id: int):
 ##################################### GET METHODS #####################################
 
 
+
+#####################################      FAST AP        #####################################
+
+@app.get("/")
+def read_docs():
+    return {"message": "Turnonauta API"}
+
+@app.get("/docs")
+def read_docs():
+    return {"message": "This is the documentation endpoint."}
 
 @app.get("/emparellaments/", response_model=List[Emparellaments])
 def get_emparellaments_all():
