@@ -94,7 +94,7 @@ def add_usuari(user: NewUser):
             INSERT INTO usuaris (rol, username, telefono, email, contrasenya, rang, data_de_registre)
             VALUES (1,%s, %s, %s, %s, 1, NOW())
             RETURNING *;
-        """, (user.username, user.telefon, user.email, user.contrasenya))
+        """, (user.username, user.phone, user.email, user.contrasenya))
         new_user = cursor.fetchone()
         cursor.execute("""
             INSERT INTO estadistiques (id_usuari, partides_jugades, partides_guanyades, tornejos_jugats, tornejos_guanyats)
