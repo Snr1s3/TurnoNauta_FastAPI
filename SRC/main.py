@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from .client import get_db_connection, release_db_connection
 from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris, UserStatistics, NewUser
@@ -18,6 +19,13 @@ from .routers.subscripcions import *
 from .routers.tornejos import *
 from .routers.usuaris import *
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace "*" with specific origins if needed
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 app = FastAPI()
 
 #####################################      Usuaris       #####################################
