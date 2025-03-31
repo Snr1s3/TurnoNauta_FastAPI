@@ -19,6 +19,8 @@ from .routers.subscripcions import *
 from .routers.tornejos import *
 from .routers.usuaris import *
 
+app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Replace "*" with specific origins if needed
@@ -26,7 +28,7 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
 )
-app = FastAPI()
+
 
 #####################################      Usuaris       #####################################
 
