@@ -23,10 +23,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace "*" with specific origins if needed
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
 
@@ -77,6 +77,12 @@ def get_tournaments_played_endpoint(user_id: int):
 @app.get("/tournaments/tournament_by_id", response_model=Torneig)
 def get_tournament_by_id(torneig_id: int):
     return get_tournament_id(torneig_id)
+
+#####################################   Tornejos Actius   #####################################
+
+@app.get("/tournaments/active", response_model=List[Torneig])
+def get_active_tournaments():
+    return get_active_tournaments_from_db()
 
 #####################################   Afegir Usuari    #####################################
 

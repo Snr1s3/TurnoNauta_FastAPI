@@ -36,3 +36,16 @@ def get_tournaments_played(user_id: int) -> List[Torneig]:
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def get_active_tournaments_from_db():
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("SELECT * FROM Torneig WHERE data_final IS NULL OR data_final > CURRENT_DATE;")
+        tournaments = cursor.fetchall()
+        return [Torneig(**tournament) for tournament in tournaments]
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
