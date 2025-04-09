@@ -3,7 +3,7 @@ from typing import List
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from .client import get_db_connection, release_db_connection
-from .models import Emparellaments, Estadistiques, Format, Puntuacio, Rang, Resultat, Rol, Ronda, Subscripcio, Torneig, Usuaris, UserStatistics, NewUser
+from .models import *
 from datetime import date
 from .schemas import LoginRequest
 
