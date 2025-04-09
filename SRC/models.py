@@ -103,3 +103,6 @@ class NewUser(BaseModel):
     email: str
     phone: str
     password: str
+
+class UpdateNameRequest(BaseModel):
+    username: str
