@@ -94,7 +94,7 @@ def add_user(user: NewUser):
 
 @app.put("/users/update_name/{user_id}", response_model=Usuaris)
 def update_user_name(user_id: int, update_name_request: UpdateNameRequest):
-    return update_username(user_id, new_name)
+    return update_username(user_id, UpdateNameRequest.username)
 
 #################################### Delete Usuaris  #########################################
 @app.delete("/users/delete_by_id", response_model=bool)
