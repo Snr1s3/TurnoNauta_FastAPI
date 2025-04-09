@@ -92,7 +92,7 @@ def add_user(user: NewUser):
     
 ##################################### Usuaris update nom #####################################
 
-@app.put("/users/update_name", response_model=Usuaris)
+@app.put("/users/update_name/{user_id}", response_model=Usuaris)
 def update_user_name(user_id: int, new_name: str):
     return update_username(user_id, new_name)
 
