@@ -86,7 +86,7 @@ def get_active_tournaments():
 
 
 #####################################   Tornejos Actius per ID   #####################################
-@app.get("/tournaments/active/{torneig_id}")
+@app.get("/tournaments/active/")
 def get_active_tournament_by_id(torneig_id: int):
     return get_active_tournament_by_id(torneig_id)
 #####################################   Afegir Usuari    #####################################
