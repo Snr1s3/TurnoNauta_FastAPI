@@ -49,3 +49,21 @@ def get_active_tournaments_from_db():
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def get_active_tournament_by_id(torneig_id: int) -> int:
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute(
+            "SELECT id_torneig FROM Torneig WHERE id_torneig = %s AND (data_final IS NULL OR data_final > CURRENT_DATE);",
+            (torneig_id,)
+        )
+        tournament = cursor.fetchone()
+        if not tournament:
+            return -1
+        return tournament["id_torneig"] 
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
