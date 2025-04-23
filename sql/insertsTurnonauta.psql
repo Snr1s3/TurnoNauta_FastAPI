@@ -12,7 +12,7 @@ VALUES
 INSERT INTO public.torneig (id_torneig, nom, joc, usuari_organitzador, competitiu, virtual, format, num_jugadors, premi, data_d_inici, data_final)
 VALUES
 (1, 'Tournament 1', 'PKM', 1, TRUE, FALSE, 'Swiss', 16, 'Trophy', '2025-03-01', '2025-03-05'),
-(2, 'Tournament 2', 'MTG', 2, TRUE, TRUE, 'Elimin', 8, 'Gift Card', '2025-03-10', '2025-03-15');
+(2, 'Tournament 2', 'MTG', 2, TRUE, TRUE, 'Elimin', 8, 'Gift Card', '2025-03-10', '2025-03-15'),
 (3, 'Tournament 3', 'Chess', 3, TRUE, TRUE, 'Round Robin', 10, 'Medal', '2025-04-01', NULL), 
 (4, 'Tournament 4', 'Poker', 4, FALSE, FALSE, 'Knockout', 20, 'Cash Prize', '2025-03-20', '2025-10-10'); 
 -- Insert data into the `ronda` table
