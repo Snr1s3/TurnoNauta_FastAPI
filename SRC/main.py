@@ -94,7 +94,13 @@ def get_active_tournament_by_id_endpoint(torneig_id: int):
 @app.post("/users/add_user", response_model=Usuaris)
 def add_user(user: NewUser):
     return add_usuari(user)
-    
+
+
+#####################################   Afegir Torneig   #####################################
+@app.post("/tournaments/create", response_model=Torneig)
+def create_tournament(tournament: Torneig):
+    return add_tournament_to_db(tournament)
+
 ##################################### Usuaris update nom #####################################
 
 @app.put("/users/update_name/{user_id}", response_model=Usuaris)

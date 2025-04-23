@@ -67,3 +67,24 @@ def get_active_tournament_by_id(torneig_id: int) -> int:
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def add_tournament_to_db(tournament: Torneig) -> Torneig:
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute(
+            """
+            INSERT INTO Torneig (nom, data_inici, data_final, descripcio)
+            VALUES (%s, %s, %s, %s)
+            RETURNING *;
+            """,
+            (tournament.nom, tournament.data_inici, tournament.data_final, tournament.descripcio)
+        )
+        new_tournament = cursor.fetchone()
+        conn.commit()
+        return Torneig(**new_tournament)  # Convert the result to a Torneig object
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
