@@ -75,6 +75,18 @@ class Torneig(BaseModel):
     data_d_inici: date
     data_final: Optional[date]
 
+class NewTorneig(BaseModel):
+    nom: str
+    joc: str
+    usuari_organitzador: int
+    competitiu: bool
+    virtual: bool
+    format: Optional[str]
+    premi: Optional[str]
+    num_jugadors: Optional[int]
+    data_d_inici: date
+    data_final: Optional[date]
+
 class Usuaris(BaseModel):
     id_usuaris: int
     rol: Optional[int]

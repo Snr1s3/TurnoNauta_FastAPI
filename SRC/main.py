@@ -98,7 +98,7 @@ def add_user(user: NewUser):
 
 #####################################   Afegir Torneig   #####################################
 @app.post("/tournaments/create", response_model=Torneig)
-def create_tournament(tournament: Torneig):
+def create_tournament(tournament: NewTorneig):
     return add_tournament_to_db(tournament)
 
 ##################################### Usuaris update nom #####################################
