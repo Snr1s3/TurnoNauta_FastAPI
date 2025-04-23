@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from ..client import get_db_connection, release_db_connection
 from psycopg2.extras import RealDictCursor
-from ..models import Torneig
+from ..models import Torneig, NewTorneig
 from typing import List
 
 def get_tournament_id(torneig_id: int) -> Torneig:
