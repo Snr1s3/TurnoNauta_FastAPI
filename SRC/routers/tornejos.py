@@ -68,17 +68,28 @@ def get_active_tournament_by_id(torneig_id: int) -> int:
         cursor.close()
         release_db_connection(conn)
 
-def add_tournament_to_db(tournament: Torneig) -> Torneig:
+def add_tournament_to_db(tournament: NewTorneig) -> Torneig:
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute(
             """
-            INSERT INTO Torneig (nom, data_inici, data_final, descripcio)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO Torneig (nom, joc, usuari_organitzador, competitiu, virtual, format, premi, num_jugadors, data_d_inici, data_final)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING *;
             """,
-            (tournament.nom, tournament.data_inici, tournament.data_final, tournament.descripcio)
+            (
+                tournament.nom,
+                tournament.joc,
+                tournament.usuari_organitzador,
+                tournament.competitiu,
+                tournament.virtual,
+                tournament.format,
+                tournament.premi,
+                tournament.num_jugadors,
+                tournament.data_d_inici,
+                tournament.data_final,
+            )
         )
         new_tournament = cursor.fetchone()
         conn.commit()
