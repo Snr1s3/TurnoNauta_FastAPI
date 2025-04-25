@@ -4,6 +4,24 @@ from psycopg2.extras import RealDictCursor
 from ..models import Torneig, NewTorneig
 from typing import List
 
+
+def get_torneig() -> List[Torneig]:
+    """
+    Fetch all tournaments from the database.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("SELECT * FROM Torneig;")
+        tournaments = cursor.fetchall()
+        return [Torneig(**tournament) for tournament in tournaments]  # Convert each result to a Torneig object
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+
+        
 def get_tournament_id(torneig_id: int) -> Torneig:
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -94,6 +112,51 @@ def add_tournament_to_db(tournament: NewTorneig) -> Torneig:
         new_tournament = cursor.fetchone()
         conn.commit()
         return Torneig(**new_tournament)  # Convert the result to a Torneig object
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+
+def get_ended_tournaments_from_db() -> List[Torneig]:
+    """
+    Fetch all tournaments that have ended.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM Torneig
+            WHERE data_final IS NOT NULL AND data_final <= CURRENT_DATE;
+            """
+        )
+        tournaments = cursor.fetchall()
+        return [Torneig(**tournament) for tournament in tournaments]  # Convert each result to a Torneig object
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+
+def get_ended_tournament_by_id(torneig_id: int) -> Torneig:
+    """
+    Fetch a specific tournament by ID that has ended.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute(
+            """
+            SELECT * FROM Torneig
+            WHERE id_torneig = %s AND data_final IS NOT NULL AND data_final <= CURRENT_DATE;
+            """,
+            (torneig_id,)
+        )
+        tournament = cursor.fetchone()
+        if not tournament:
+            raise HTTPException(status_code=404, detail="Ended tournament not found")
+        return Torneig(**tournament)  # Convert the result to a Torneig object
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:

@@ -149,12 +149,15 @@ def delete_user_id(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
+        cursor.execute("DELETE FROM estadistiques WHERE id_usuari = %s;", (user_id,))
+        cursor.execute("DELETE FROM public.subscripcio WHERE id_usuari = %s;", (user_id,))
         cursor.execute("DELETE FROM usuaris WHERE id_usuaris = %s RETURNING id_usuaris;", (user_id,))
         deleted_user = cursor.fetchone()
         if not deleted_user:
             raise HTTPException(status_code=404, detail="User not found")
+        
         conn.commit()
-        return True 
+        return True
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=400, detail=str(e))

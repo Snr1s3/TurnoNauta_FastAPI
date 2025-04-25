@@ -36,6 +36,11 @@ app.add_middleware(
 def get_usuaris_all():
     return get_usuaris()
 
+
+######################################  Tornejos  #####################################
+@app.get("/tornejos/", response_model=List[Torneig])
+def get_tornejos_all():
+    return get_torneig()
 #####################################  Puntuacio Torneig #####################################
 
 @app.get("/users/users_in_tournament", response_model=List[UserWithPoints])
@@ -86,9 +91,23 @@ def get_active_tournaments():
 
 
 #####################################   Tornejos Actius per ID   #####################################
-@app.get("/tournaments/active/")
+@app.get("/tournaments/active_by_id", response_model=Torneig)
 def get_active_tournament_by_id_endpoint(torneig_id: int):
     return get_active_tournament_by_id(torneig_id)
+
+#####################################   Tornejos Actius   #####################################
+
+@app.get("/tournaments/ended", response_model=List[Torneig])
+def get_active_tournaments():
+    return get_ended_tournaments_from_db()
+
+
+#####################################   Tornejos Actius per ID   #####################################
+@app.get("/tournaments/ended_by_id", response_model=Torneig)
+def get_active_tournament_by_id_endpoint(torneig_id: int):
+    return get_ended_tournament_by_id(torneig_id)
+
+
 #####################################   Afegir Usuari    #####################################
 
 @app.post("/users/add_user", response_model=Usuaris)
