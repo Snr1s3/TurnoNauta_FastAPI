@@ -118,3 +118,10 @@ class NewUser(BaseModel):
 
 class UpdateNameRequest(BaseModel):
     username: str
+
+class NewPuntuacio(BaseModel):
+    id_torneig: int
+    id_usuari: int
+    victories: int
+    derrotes: int
+    punts: int

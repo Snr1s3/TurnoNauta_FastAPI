@@ -120,6 +120,14 @@ def add_user(user: NewUser):
 def create_tournament(tournament: NewTorneig):
     return add_tournament_to_db(tournament)
 
+#####################################   Afegir Puntuacio   #####################################
+
+@app.post("/puntuacions/add", response_model=Puntuacio)
+def add_puntuacio(puntuacio: NewPuntuacio):
+    try:
+        return add_puntuacio_to_db(puntuacio)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 ##################################### Usuaris update nom #####################################
 
 @app.put("/users/update_name/{user_id}", response_model=Usuaris)

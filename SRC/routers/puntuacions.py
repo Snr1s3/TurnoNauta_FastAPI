@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from ..client import get_db_connection, release_db_connection
 from psycopg2.extras import RealDictCursor
-from ..models import UserWithPoints
+from ..models import UserWithPoints, NewPuntuacio
 
 def get_puntuacions():
     conn = get_db_connection()
@@ -15,6 +15,7 @@ def get_puntuacions():
     finally:
         cursor.close()
         release_db_connection(conn)
+
 def get_users_points(torneig_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -36,3 +37,18 @@ def get_users_points(torneig_id: int):
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def add_puntuacio_to_db(puntuacio: NewPuntuacio):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    query = """
+        INSERT INTO public.puntuacio (id_torneig, id_usuari, victories, derrotes, punts)
+        VALUES (%s, %s, %s, %s, %s)
+        RETURNING id_puntuacio, id_torneig, id_usuari, victories, derrotes, punts;
+    """
+    cursor.execute(query, (puntuacio.id_torneig, puntuacio.id_usuari, puntuacio.victories, puntuacio.derrotes, puntuacio.punts))
+    result = cursor.fetchone()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return result
