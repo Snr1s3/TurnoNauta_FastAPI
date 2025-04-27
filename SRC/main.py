@@ -142,7 +142,7 @@ def delete_user_by_id(user_id: int):
     
 
 ##################################### Delete Puntuacions  #########################################
-@app.delete("/puntuacions/delete_by_tournament/{torneig_id}")
+@app.delete("/puntuacions/delete_puntuacions_tournament/{torneig_id}")
 def delete_puntuacions(torneig_id: int):
     return delete_puntuacions_by_tournament(torneig_id)
 """
