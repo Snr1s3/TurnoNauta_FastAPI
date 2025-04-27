@@ -67,3 +67,19 @@ def delete_puntuacions_by_tournament(torneig_id: int):
     finally:
         cursor.close()
         release_db_connection(conn)
+
+    
+def delete_puntuacions_by_user(user_id: int, tournament_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # Delete all puntuacions for the specified user
+        query = "DELETE FROM public.puntuacio WHERE id_usuari = %s and id_torneig = %s;"
+        cursor.execute(query, (user_id, tournament_id))
+        conn.commit()
+        return {"message": f"All puntuacions for user ID {user_id} have been deleted."}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)

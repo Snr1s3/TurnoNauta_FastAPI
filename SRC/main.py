@@ -145,6 +145,11 @@ def delete_user_by_id(user_id: int):
 @app.delete("/puntuacions/delete_puntuacions_tournament/{torneig_id}")
 def delete_puntuacions(torneig_id: int):
     return delete_puntuacions_by_tournament(torneig_id)
+
+##################################### Delete Puntuacions  #########################################
+@app.delete("/puntuacions/delete_by_user/{user_id}/tournament/{tournament_id}")
+def delete_puntuacions_by_user(user_id: int, tournament_id: int):
+    return delete_puntuacions_by_user(user_id, tournament_id)
 """
 ##################################### GET METHODS #####################################
 
