@@ -31,7 +31,7 @@ def get_users_points(torneig_id: int):
         users = cursor.fetchall()
         if not users:
             raise HTTPException(status_code=404, detail="No users found for the specified tournament")
-        return users
+        return [{"username": user[0], "punts": user[1]} for user in users]
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
