@@ -11,7 +11,7 @@ db_config = {
 }
 
 # Pool de conexiones
-db_pool = pool.SimpleConnectionPool(1, 5, **db_config)
+db_pool = pool.SimpleConnectionPool(1, 30, **db_config)
 
 def get_db_connection():
     conn = db_pool.getconn()
