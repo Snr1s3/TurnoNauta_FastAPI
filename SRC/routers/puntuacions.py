@@ -18,7 +18,7 @@ def get_puntuacions():
 
 def get_users_points(torneig_id: int):
     conn = get_db_connection()
-    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor = conn.cursor()
     try:
         # Query to get username and points, ordered by points in descending order
         cursor.execute("""
