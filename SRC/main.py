@@ -140,6 +140,11 @@ def update_user_name(user_id: int, update_name_request: UpdateNameRequest):
 def delete_user_by_id(user_id: int):
     return delete_user_id(user_id)
     
+
+##################################### Delete Puntuacions  #########################################
+@app.delete("/puntuacions/delete_by_tournament/{torneig_id}")
+def delete_puntuacions(torneig_id: int):
+    return delete_puntuacions_by_tournament(torneig_id)
 """
 ##################################### GET METHODS #####################################
 
