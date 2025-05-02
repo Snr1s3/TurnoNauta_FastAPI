@@ -122,6 +122,8 @@ class UpdateNameRequest(BaseModel):
 class NewPuntuacio(BaseModel):
     id_torneig: int
     id_usuari: int
+    sos: int
     victories: int
+    empat: int
     derrotes: int
     punts: int

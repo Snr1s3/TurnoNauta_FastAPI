@@ -42,11 +42,11 @@ def add_puntuacio_to_db(puntuacio: NewPuntuacio):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)  # Use RealDictCursor
     query = """
-        INSERT INTO public.puntuacio (id_torneig, id_usuari, victories, derrotes, punts)
-        VALUES (%s, %s, %s, %s, %s)
-        RETURNING id_puntuacio, id_torneig, id_usuari, victories, derrotes, punts;
+        INSERT INTO public.puntuacio (id_torneig, id_usuari, sos, victories, empat, derrotes, punts)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        RETURNING id_puntuacio, id_torneig, id_usuari, sos, victories, empat, derrotes, punts;
     """
-    cursor.execute(query, (puntuacio.id_torneig, puntuacio.id_usuari, puntuacio.victories, puntuacio.derrotes, puntuacio.punts))
+    cursor.execute(query, (puntuacio.id_torneig, puntuacio.id_usuari, puntuacio.sos, puntuacio.victories, puntuacio.empat, puntuacio.derrotes, puntuacio.punts))
     result = cursor.fetchone()  # Fetch as a dictionary
     conn.commit()
     cursor.close()
