@@ -17,7 +17,7 @@ VALUES
 (4, 'Tournament 4', 'Poker', 4, FALSE, FALSE, 'Swiss', 20, 'Cash Prize', '2025-03-20', '2025-10-10'); 
 
 -- Insert data into the `ronda` table
-INSERT INTO public.ronda (id_ronda, id_torneig, estat, id_emparallent)
+INSERT INTO public.ronda (id_ronda, id_torneig, estat)
 VALUES
 (1, 1, 'Completed'),
 (2, 2, 'In Progress');
