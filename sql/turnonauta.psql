@@ -108,6 +108,7 @@ CREATE TABLE public.ronda (
     id_ronda integer NOT NULL DEFAULT nextval('public.ronda_id_ronda_seq'),
     id_torneig integer,
     estat character varying(50),
+    id_emparallent integer,
     PRIMARY KEY (id_ronda)
 );
 
@@ -156,7 +157,7 @@ ALTER TABLE public.puntuacio ADD CONSTRAINT puntuacio_id_torneig_fkey FOREIGN KE
 ALTER TABLE public.puntuacio ADD CONSTRAINT puntuacio_id_usuari_fkey FOREIGN KEY (id_usuari) REFERENCES public.usuaris(id_usuaris);
 ALTER TABLE public.ronda ADD CONSTRAINT ronda_id_torneig_fkey FOREIGN KEY (id_torneig) REFERENCES public.torneig(id_torneig);
 ALTER TABLE public.torneig ADD CONSTRAINT torneig_usuari_organitzador_fkey FOREIGN KEY (usuari_organitzador) REFERENCES public.usuaris(id_usuaris);
-
+ALTER TABLE public.ronda ADD CONSTRAINT ronda_id_emparallent_fkey FOREIGN KEY (id_emparallent) REFERENCES public.emparallaments(id_emperallent)
 -- Grant Permissions
 GRANT ALL ON DATABASE turnonauta TO turnonauta;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO turnonauta;
