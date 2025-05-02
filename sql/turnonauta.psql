@@ -13,122 +13,17 @@ CREATE DATABASE turnonauta;
 -- Create Roles
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'postgres') THEN
-        CREATE ROLE postgres;
-        ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:kD2HsGWQOFO4sEJUsqlhCg==$JIVkRL6QTjeZc2CPxmMF8bm5ea4GOUX7524LQ0ZbjBM=:XYqduvkNL7nTTkmQBlBgIdij+K5mfpZ9aeoVj0moyWQ=';
-    END IF;
-END
-$$;
-
-DO $$
-BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'turnonauta') THEN
         CREATE ROLE turnonauta;
-        ALTER ROLE turnonauta WITH SUPERUSER INHERIT NOCREATEROLE CREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:JL05+zSmqFZ5Clsx2GQ3WQ==$JILDddHYtPITrgYQBJtGpyhvi7MmSxeRiIGQ4AnRiuU=:3a3jIwz9n/bsKyROV5Lmq9w4fndu7qRhARsmrSvmRGg=';
+        ALTER ROLE turnonauta WITH SUPERUSER INHERIT NOCREATEROLE CREATEDB LOGIN NOREPLICATION NOBYPASSRLS PASSWORD 'your_secure_password';
     END IF;
 END
 $$;
 
 -- Grant Role Memberships
-GRANT pg_read_all_data TO turnonauta GRANTED BY postgres;
-GRANT pg_read_all_settings TO turnonauta GRANTED BY postgres;
-GRANT pg_read_all_stats TO turnonauta GRANTED BY postgres;
-
--- Create Tables
-CREATE TABLE public.emparallaments (
-    id_emperallent integer NOT NULL,
-    id_usuari1 integer,
-    resultat_usuari_1 character varying(50),
-    id_usuari2 integer,
-    resultat_usuari_2 character varying(50)
-);
-
-CREATE TABLE public.estadistiques (
-    id_estats integer NOT NULL,
-    id_usuari integer,
-    partides_jugades integer,
-    partides_guanyades integer,
-    tornejos_jugats integer,
-    tornejos_guanyats integer
-);
-
-CREATE TABLE public.format (
-    id_format integer NOT NULL,
-    nom character varying(50),
-    joc character varying(50),
-    jugadors integer,
-    temps time without time zone,
-    regles text
-);
-
-CREATE TABLE public.puntuacio (
-    id_puntuacio integer NOT NULL,
-    id_torneig integer,
-    id_usuari integer,
-    victories integer,
-    derrotes integer,
-    punts integer
-);
-
-CREATE TABLE public.rang (
-    id_rang integer NOT NULL,
-    nom character varying(50),
-    descripcio text
-);
-
-CREATE TABLE public.resultat (
-    id_resultat integer NOT NULL,
-    id_ronda integer,
-    id_usuari_guanyador integer
-);
-
-CREATE TABLE public.rol (
-    id_rol integer NOT NULL,
-    nom character varying(50),
-    permet_torneig boolean
-);
-
-CREATE TABLE public.ronda (
-    id_ronda integer NOT NULL,
-    id_torneig integer,
-    estat character varying(50),
-    id_emparallent integer
-);
-
-CREATE TABLE public.subscripcio (
-    id_subscripcio integer NOT NULL,
-    id_usuari integer,
-    data_inici date,
-    data_final date,
-    tipus character varying(50),
-    estat character varying(50)
-);
-
-CREATE TABLE public.torneig (
-    id_torneig integer NOT NULL,
-    nom character varying(100),
-    joc character varying(50),
-    usuari_organitzador integer,
-    competitiu boolean,
-    virtual boolean,
-    format character varying(50),
-    num_jugadors integer,
-    premi character varying(100),
-    data_d_inici date,
-    data_final date
-);
-
-CREATE TABLE public.usuaris (
-    id_usuaris integer NOT NULL,
-    rol integer,
-    username character varying(50),
-    email character varying(100),
-    bio text,
-    telefono character varying(15),
-    contrasenya character varying(100),
-    rang integer,
-    data_de_registre date
-);
+GRANT pg_read_all_data TO turnonauta;
+GRANT pg_read_all_settings TO turnonauta;
+GRANT pg_read_all_stats TO turnonauta;
 
 -- Create Sequences
 CREATE SEQUENCE public.emparallaments_id_emperallent_seq AS integer START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
@@ -143,89 +38,131 @@ CREATE SEQUENCE public.subscripcio_id_subscripcio_seq AS integer START WITH 1 IN
 CREATE SEQUENCE public.torneig_id_torneig_seq AS integer START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
 CREATE SEQUENCE public.usuaris_id_usuaris_seq AS integer START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
--- Set Sequence Ownership
-ALTER SEQUENCE public.emparallaments_id_emperallent_seq OWNED BY public.emparallaments.id_emperallent;
-ALTER SEQUENCE public.estadistiques_id_estats_seq OWNED BY public.estadistiques.id_estats;
-ALTER SEQUENCE public.format_id_format_seq OWNED BY public.format.id_format;
-ALTER SEQUENCE public.puntuacio_id_puntuacio_seq OWNED BY public.puntuacio.id_puntuacio;
-ALTER SEQUENCE public.rang_id_rang_seq OWNED BY public.rang.id_rang;
-ALTER SEQUENCE public.resultat_id_resultat_seq OWNED BY public.resultat.id_resultat;
-ALTER SEQUENCE public.rol_id_rol_seq OWNED BY public.rol.id_rol;
-ALTER SEQUENCE public.ronda_id_ronda_seq OWNED BY public.ronda.id_ronda;
-ALTER SEQUENCE public.subscripcio_id_subscripcio_seq OWNED BY public.subscripcio.id_subscripcio;
-ALTER SEQUENCE public.torneig_id_torneig_seq OWNED BY public.torneig.id_torneig;
-ALTER SEQUENCE public.usuaris_id_usuaris_seq OWNED BY public.usuaris.id_usuaris;
+-- Create Tables
+CREATE TABLE public.emparallaments (
+    id_emperallent integer NOT NULL DEFAULT nextval('public.emparallaments_id_emperallent_seq'),
+    id_ronda integer,
+    id_usuari1 integer,
+    resultat_usuari_1 integer,
+    id_usuari2 integer,
+    resultat_usuari_2 integer,
+    id_usuari_guanyador integer,
+    id_usuari_perdedor integer,
+    PRIMARY KEY (id_emperallent)
+);
 
--- Set Default Values for Sequences
-ALTER TABLE ONLY public.emparallaments ALTER COLUMN id_emperallent SET DEFAULT nextval('public.emparallaments_id_emperallent_seq'::regclass);
-ALTER TABLE ONLY public.estadistiques ALTER COLUMN id_estats SET DEFAULT nextval('public.estadistiques_id_estats_seq'::regclass);
-ALTER TABLE ONLY public.format ALTER COLUMN id_format SET DEFAULT nextval('public.format_id_format_seq'::regclass);
-ALTER TABLE ONLY public.puntuacio ALTER COLUMN id_puntuacio SET DEFAULT nextval('public.puntuacio_id_puntuacio_seq'::regclass);
-ALTER TABLE ONLY public.rang ALTER COLUMN id_rang SET DEFAULT nextval('public.rang_id_rang_seq'::regclass);
-ALTER TABLE ONLY public.resultat ALTER COLUMN id_resultat SET DEFAULT nextval('public.resultat_id_resultat_seq'::regclass);
-ALTER TABLE ONLY public.rol ALTER COLUMN id_rol SET DEFAULT nextval('public.rol_id_rol_seq'::regclass);
-ALTER TABLE ONLY public.ronda ALTER COLUMN id_ronda SET DEFAULT nextval('public.ronda_id_ronda_seq'::regclass);
-ALTER TABLE ONLY public.subscripcio ALTER COLUMN id_subscripcio SET DEFAULT nextval('public.subscripcio_id_subscripcio_seq'::regclass);
-ALTER TABLE ONLY public.torneig ALTER COLUMN id_torneig SET DEFAULT nextval('public.torneig_id_torneig_seq'::regclass);
-ALTER TABLE ONLY public.usuaris ALTER COLUMN id_usuaris SET DEFAULT nextval('public.usuaris_id_usuaris_seq'::regclass);
+CREATE TABLE public.estadistiques (
+    id_estats integer NOT NULL DEFAULT nextval('public.estadistiques_id_estats_seq'),
+    id_usuari integer,
+    partides_jugades integer,
+    partides_guanyades integer,
+    tornejos_jugats integer,
+    tornejos_guanyats integer,
+    PRIMARY KEY (id_estats)
+);
 
--- Add Primary Key Constraints
-ALTER TABLE ONLY public.emparallaments ADD CONSTRAINT emparallaments_pkey PRIMARY KEY (id_emperallent);
-ALTER TABLE ONLY public.estadistiques ADD CONSTRAINT estadistiques_pkey PRIMARY KEY (id_estats);
-ALTER TABLE ONLY public.format ADD CONSTRAINT format_pkey PRIMARY KEY (id_format);
-ALTER TABLE ONLY public.puntuacio ADD CONSTRAINT puntuacio_pkey PRIMARY KEY (id_puntuacio);
-ALTER TABLE ONLY public.rang ADD CONSTRAINT rang_pkey PRIMARY KEY (id_rang);
-ALTER TABLE ONLY public.resultat ADD CONSTRAINT resultat_pkey PRIMARY KEY (id_resultat);
-ALTER TABLE ONLY public.rol ADD CONSTRAINT rol_pkey PRIMARY KEY (id_rol);
-ALTER TABLE ONLY public.ronda ADD CONSTRAINT ronda_pkey PRIMARY KEY (id_ronda);
-ALTER TABLE ONLY public.subscripcio ADD CONSTRAINT subscripcio_pkey PRIMARY KEY (id_subscripcio);
-ALTER TABLE ONLY public.torneig ADD CONSTRAINT torneig_pkey PRIMARY KEY (id_torneig);
-ALTER TABLE ONLY public.usuaris ADD CONSTRAINT usuaris_pkey PRIMARY KEY (id_usuaris);
+CREATE TABLE public.format (
+    id_format integer NOT NULL DEFAULT nextval('public.format_id_format_seq'),
+    nom character varying(50),
+    joc character varying(50),
+    jugadors integer,
+    temps time without time zone,
+    regles text,
+    PRIMARY KEY (id_format)
+);
+
+CREATE TABLE public.puntuacio (
+    id_puntuacio integer NOT NULL DEFAULT nextval('public.puntuacio_id_puntuacio_seq'),
+    id_torneig integer,
+    id_usuari integer,
+    sos integer,
+    victories integer,
+    empat integer,
+    derrotes integer,
+    punts integer,
+    PRIMARY KEY (id_puntuacio)
+);
+
+CREATE TABLE public.rang (
+    id_rang integer NOT NULL DEFAULT nextval('public.rang_id_rang_seq'),
+    nom character varying(50),
+    descripcio text,
+    PRIMARY KEY (id_rang)
+);
+
+CREATE TABLE public.resultat (
+    id_resultat integer NOT NULL DEFAULT nextval('public.resultat_id_resultat_seq'),
+    id_ronda integer,
+    id_usuari_guanyador integer,
+    PRIMARY KEY (id_resultat)
+);
+
+CREATE TABLE public.rol (
+    id_rol integer NOT NULL DEFAULT nextval('public.rol_id_rol_seq'),
+    nom character varying(50),
+    permet_torneig boolean,
+    PRIMARY KEY (id_rol)
+);
+
+CREATE TABLE public.ronda (
+    id_ronda integer NOT NULL DEFAULT nextval('public.ronda_id_ronda_seq'),
+    id_torneig integer,
+    estat character varying(50),
+    PRIMARY KEY (id_ronda)
+);
+
+CREATE TABLE public.subscripcio (
+    id_subscripcio integer NOT NULL DEFAULT nextval('public.subscripcio_id_subscripcio_seq'),
+    id_usuari integer,
+    data_inici date,
+    data_final date,
+    tipus character varying(50),
+    estat character varying(50),
+    PRIMARY KEY (id_subscripcio)
+);
+
+CREATE TABLE public.torneig (
+    id_torneig integer NOT NULL DEFAULT nextval('public.torneig_id_torneig_seq'),
+    nom character varying(100) UNIQUE,
+    joc character varying(50),
+    usuari_organitzador integer,
+    competitiu boolean,
+    virtual boolean,
+    format character varying(50),
+    num_jugadors integer,
+    premi character varying(100),
+    data_d_inici date,
+    data_final date,
+    PRIMARY KEY (id_torneig)
+);
+
+CREATE TABLE public.usuaris (
+    id_usuaris integer NOT NULL DEFAULT nextval('public.usuaris_id_usuaris_seq'),
+    rol integer,
+    username character varying(50) UNIQUE,
+    email character varying(100),
+    bio text,
+    telefono character varying(15),
+    contrasenya character varying(100),
+    rang integer,
+    data_de_registre date,
+    PRIMARY KEY (id_usuaris)
+);
 
 -- Add Foreign Key Constraints
-ALTER TABLE ONLY public.emparallaments ADD CONSTRAINT emparallaments_id_usuari1_fkey FOREIGN KEY (id_usuari1) REFERENCES public.usuaris(id_usuaris);
-ALTER TABLE ONLY public.emparallaments ADD CONSTRAINT emparallaments_id_usuari2_fkey FOREIGN KEY (id_usuari2) REFERENCES public.usuaris(id_usuaris);
-ALTER TABLE ONLY public.estadistiques ADD CONSTRAINT estadistiques_id_usuari_fkey FOREIGN KEY (id_usuari) REFERENCES public.usuaris(id_usuaris);
-ALTER TABLE ONLY public.puntuacio ADD CONSTRAINT puntuacio_id_torneig_fkey FOREIGN KEY (id_torneig) REFERENCES public.torneig(id_torneig);
-ALTER TABLE ONLY public.puntuacio ADD CONSTRAINT puntuacio_id_usuari_fkey FOREIGN KEY (id_usuari) REFERENCES public.usuaris(id_usuaris);
-ALTER TABLE ONLY public.resultat ADD CONSTRAINT resultat_id_ronda_fkey FOREIGN KEY (id_ronda) REFERENCES public.ronda(id_ronda);
-ALTER TABLE ONLY public.resultat ADD CONSTRAINT resultat_id_usuari_guanyador_fkey FOREIGN KEY (id_usuari_guanyador) REFERENCES public.usuaris(id_usuaris);
-ALTER TABLE ONLY public.ronda ADD CONSTRAINT ronda_id_torneig_fkey FOREIGN KEY (id_torneig) REFERENCES public.torneig(id_torneig);
-ALTER TABLE ONLY public.subscripcio ADD CONSTRAINT subscripcio_id_usuari_fkey FOREIGN KEY (id_usuari) REFERENCES public.usuaris(id_usuaris);
-ALTER TABLE ONLY public.torneig ADD CONSTRAINT torneig_usuari_organitzador_fkey FOREIGN KEY (usuari_organitzador) REFERENCES public.usuaris(id_usuaris);
+ALTER TABLE public.emparallaments ADD CONSTRAINT emparallaments_id_usuari1_fkey FOREIGN KEY (id_usuari1) REFERENCES public.usuaris(id_usuaris);
+ALTER TABLE public.emparallaments ADD CONSTRAINT emparallaments_id_usuari2_fkey FOREIGN KEY (id_usuari2) REFERENCES public.usuaris(id_usuaris);
+ALTER TABLE public.puntuacio ADD CONSTRAINT puntuacio_id_torneig_fkey FOREIGN KEY (id_torneig) REFERENCES public.torneig(id_torneig);
+ALTER TABLE public.puntuacio ADD CONSTRAINT puntuacio_id_usuari_fkey FOREIGN KEY (id_usuari) REFERENCES public.usuaris(id_usuaris);
+ALTER TABLE public.ronda ADD CONSTRAINT ronda_id_torneig_fkey FOREIGN KEY (id_torneig) REFERENCES public.torneig(id_torneig);
+ALTER TABLE public.torneig ADD CONSTRAINT torneig_usuari_organitzador_fkey FOREIGN KEY (usuari_organitzador) REFERENCES public.usuaris(id_usuaris);
 
 -- Grant Permissions
 GRANT ALL ON DATABASE turnonauta TO turnonauta;
-GRANT ALL ON TABLE public.emparallaments TO turnonauta;
-GRANT ALL ON TABLE public.estadistiques TO turnonauta;
-GRANT ALL ON TABLE public.format TO turnonauta;
-GRANT ALL ON TABLE public.puntuacio TO turnonauta;
-GRANT ALL ON TABLE public.rang TO turnonauta;
-GRANT ALL ON TABLE public.resultat TO turnonauta;
-GRANT ALL ON TABLE public.rol TO turnonauta;
-GRANT ALL ON TABLE public.ronda TO turnonauta;
-GRANT ALL ON TABLE public.subscripcio TO turnonauta;
-GRANT ALL ON TABLE public.torneig TO turnonauta;
-GRANT ALL ON TABLE public.usuaris TO turnonauta;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO turnonauta;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO turnonauta;
 
--- Add UNIQUE constraint to the `username` column in the `usuaris` table
-ALTER TABLE public.usuaris ADD CONSTRAINT usuaris_username_unique UNIQUE (username);
-
--- Add UNIQUE constraint to the `nom` column in the `torneig` table
-ALTER TABLE public.torneig ADD CONSTRAINT torneig_nom_unique UNIQUE (nom);
-
--- Set default values for primary key columns using their associated sequences
-ALTER TABLE public.emparallaments ALTER COLUMN id_emperallent SET DEFAULT nextval('public.emparallaments_id_emperallent_seq');
-ALTER TABLE public.estadistiques ALTER COLUMN id_estats SET DEFAULT nextval('public.estadistiques_id_estats_seq');
-ALTER TABLE public.format ALTER COLUMN id_format SET DEFAULT nextval('public.format_id_format_seq');
-ALTER TABLE public.puntuacio ALTER COLUMN id_puntuacio SET DEFAULT nextval('public.puntuacio_id_puntuacio_seq');
-ALTER TABLE public.rang ALTER COLUMN id_rang SET DEFAULT nextval('public.rang_id_rang_seq');
-ALTER TABLE public.resultat ALTER COLUMN id_resultat SET DEFAULT nextval('public.resultat_id_resultat_seq');
-ALTER TABLE public.rol ALTER COLUMN id_rol SET DEFAULT nextval('public.rol_id_rol_seq');
-ALTER TABLE public.ronda ALTER COLUMN id_ronda SET DEFAULT nextval('public.ronda_id_ronda_seq');
-ALTER TABLE public.subscripcio ALTER COLUMN id_subscripcio SET DEFAULT nextval('public.subscripcio_id_subscripcio_seq');
-ALTER TABLE public.torneig ALTER COLUMN id_torneig SET DEFAULT nextval('public.torneig_id_torneig_seq');
-ALTER TABLE public.usuaris ALTER COLUMN id_usuaris SET DEFAULT nextval('public.usuaris_id_usuaris_seq');
+-- Reset Sequences
 SELECT setval('emparallaments_id_emperallent_seq', COALESCE((SELECT MAX(id_emperallent) FROM public.emparallaments), 0) + 1, false);
 SELECT setval('estadistiques_id_estats_seq', COALESCE((SELECT MAX(id_estats) FROM public.estadistiques), 0) + 1, false);
 SELECT setval('format_id_format_seq', COALESCE((SELECT MAX(id_format) FROM public.format), 0) + 1, false);
