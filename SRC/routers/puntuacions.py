@@ -16,6 +16,21 @@ def get_puntuacions():
         cursor.close()
         release_db_connection(conn)
 
+def get_puntuacio_id(puntuacio_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("SELECT * FROM Puntuacio WHERE id_puntuacio = %s;", (puntuacio_id,))
+        puntuacio = cursor.fetchone()
+        if not puntuacio:
+            raise HTTPException(status_code=404, detail="Puntuacio not found")
+        return puntuacio
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+
 def get_users_points(torneig_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()

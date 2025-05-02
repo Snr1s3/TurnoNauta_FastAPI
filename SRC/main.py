@@ -47,6 +47,11 @@ def get_tornejos_all():
 def get_users_in_tournament(torneig_id: int):
     return get_users_points(torneig_id)
 
+
+##################################### Get puntuacions Torneig per id  #####################################
+@app.get("/puntuacions/get_by_id/{puntuacio_id}", response_model=Puntuacio)
+def get_puntuacio_by_id(puntuacio_id: int):
+    return get_puntuacio_id(puntuacio_id)
 ##################################### Usuaris check nom  #####################################
 
 @app.get("/users/check_username", response_model=bool)
