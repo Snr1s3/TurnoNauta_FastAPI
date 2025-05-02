@@ -4,10 +4,13 @@ from datetime import date, datetime
 
 class Emparellaments(BaseModel):
     id_emperallent: Optional[int]
+    id_ronda: Optional[int]
     id_usuari1: int
-    resultat_usuari_1: Optional[str]
+    resultat_usuari_1: int
     id_usuari2: int
-    resultat_usuari_2: Optional[str]
+    resultat_usuari_2: int
+    id_guanyador: int
+    id_perdedor: int
 
 class Estadistiques(BaseModel):
     id_estats: Optional[int]
@@ -26,12 +29,13 @@ class Format(BaseModel):
     regles: Optional[str]
 
 class Puntuacio(BaseModel):
-    id_puntuacio: Optional[int]
     id_torneig: int
     id_usuari: int
-    victories: Optional[int]
-    derrotes: Optional[int]
-    punts: Optional[int]
+    sos: int
+    victories: int
+    empat: int
+    derrotes: int
+    punts: int
 
 class Rang(BaseModel):
     id_rang: Optional[int]
@@ -52,7 +56,6 @@ class Ronda(BaseModel):
     id_ronda: Optional[int]
     id_torneig: int
     estat: str
-    id_emparallent: Optional[int]
 
 class Subscripcio(BaseModel):
     id_subscripcio: Optional[int]

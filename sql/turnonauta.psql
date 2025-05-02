@@ -108,7 +108,6 @@ CREATE TABLE public.ronda (
     id_ronda integer NOT NULL DEFAULT nextval('public.ronda_id_ronda_seq'),
     id_torneig integer,
     estat character varying(50),
-    id_emparallent integer,
     PRIMARY KEY (id_ronda)
 );
 
@@ -151,6 +150,7 @@ CREATE TABLE public.usuaris (
 );
 
 -- Add Foreign Key Constraints
+ALTER TABLE public.emparallaments ADD CONSTRAINT emparallaments_id_ronda_fkey FOREIGN KEY (id_ronda) REFERENCES public.ronda(id_ronda);
 ALTER TABLE public.emparallaments ADD CONSTRAINT emparallaments_id_usuari1_fkey FOREIGN KEY (id_usuari1) REFERENCES public.usuaris(id_usuaris);
 ALTER TABLE public.emparallaments ADD CONSTRAINT emparallaments_id_usuari2_fkey FOREIGN KEY (id_usuari2) REFERENCES public.usuaris(id_usuaris);
 ALTER TABLE public.puntuacio ADD CONSTRAINT puntuacio_id_torneig_fkey FOREIGN KEY (id_torneig) REFERENCES public.torneig(id_torneig);

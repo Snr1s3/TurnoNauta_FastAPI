@@ -16,15 +16,23 @@ def get_puntuacions():
         cursor.close()
         release_db_connection(conn)
 
-def get_puntuacio_id(puntuacio_id: int):
+def get_puntuacions_by_tournament_id(torneig_id: int):
+    """
+    Retrieve all puntuacions for a specific tournament ID.
+    """
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute("SELECT * FROM Puntuacio WHERE id_puntuacio = %s;", (puntuacio_id,))
-        puntuacio = cursor.fetchone()
-        if not puntuacio:
-            raise HTTPException(status_code=404, detail="Puntuacio not found")
-        return puntuacio
+        query = """
+            SELECT * FROM public.puntuacio
+            WHERE id_torneig = %s
+            ORDER BY punts DESC;
+        """
+        cursor.execute(query, (torneig_id,))
+        puntuacions = cursor.fetchall()
+        if not puntuacions:
+            raise HTTPException(status_code=404, detail="No puntuacions found for the specified tournament ID")
+        return puntuacions
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:

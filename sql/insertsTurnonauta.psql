@@ -15,17 +15,18 @@ VALUES
 (2, 'Tournament 2', 'MTG', 2, TRUE, TRUE, 'Elimin', 8, 'Gift Card', '2025-03-10', '2025-03-15'),
 (3, 'Tournament 3', 'Chess', 3, TRUE, TRUE, 'Elimin', 10, 'Medal', '2025-04-01', '2025-04-23'), 
 (4, 'Tournament 4', 'Poker', 4, FALSE, FALSE, 'Swiss', 20, 'Cash Prize', '2025-03-20', '2025-10-10'); 
+
 -- Insert data into the `ronda` table
 INSERT INTO public.ronda (id_ronda, id_torneig, estat, id_emparallent)
 VALUES
-(1, 1, 'Completed', 1),
-(2, 2, 'In Progress', 2);
+(1, 1, 'Completed'),
+(2, 2, 'In Progress');
 
 -- Insert data into the `emparallaments` table
-INSERT INTO public.emparallaments (id_emperallent, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2)
+INSERT INTO public.emparallaments (id_emperallent, id_ronda, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2)
 VALUES
-(1, 2, 2, 3, 0),
-(2, 3, 1, 2, 2);
+(1, 1, 2, 2, 3, 0),
+(2, 2, 3, 1, 2, 2);
 
 -- Insert data into the `resultat` table
 INSERT INTO public.resultat (id_resultat, id_ronda, id_usuari_guanyador)
