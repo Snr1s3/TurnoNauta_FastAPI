@@ -16,7 +16,7 @@ def get_puntuacions():
         cursor.close()
         release_db_connection(conn)
 
-def get_puntuacions_by_tournament_id(torneig_id: int):
+def get_puntuacio_id(torneig_id: int):
     """
     Retrieve all puntuacions for a specific tournament ID.
     """
