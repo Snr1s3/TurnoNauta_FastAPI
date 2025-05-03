@@ -39,7 +39,7 @@ def add_ronda_to_db(info_ronda: NewRonda):
             VALUES (%s, %s, %s, %s, %s, %s, %s);
         """
         cursor2.execute(query, (new_ronda["id_ronda"], info_ronda.id_player1, 0, info_ronda.id_player2, 0, None, None))
-        new_emparallament = cursor.fetchone()  # Fetch the inserted row as a dictionary
+        new_emparallament = cursor2.fetchone()  # Fetch the inserted row as a dictionary
         conn2.commit()
         print(f"Emparallament added with ID: {new_emparallament['id_emperallent']}")
         cursor.close()
