@@ -20,10 +20,7 @@ def add_ronda_to_db(info_ronda: NewRonda):
 
     print("Received request body:", info_ronda)
     conn = get_db_connection()
-    conn2 = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
-
-    cursor2 = conn2.cursor(cursor_factory=RealDictCursor)
     try:
         query = """
             INSERT INTO public.ronda (id_torneig, estat)
@@ -38,14 +35,12 @@ def add_ronda_to_db(info_ronda: NewRonda):
             INSERT INTO public.emparallaments (id_ronda , id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2, id_usuari_guanyador, id_usuari_perdedor)
             VALUES (%s, %s, %s, %s, %s, %s, %s);
         """
-        cursor2.execute(query, (new_ronda["id_ronda"], info_ronda.id_player1, 0, info_ronda.id_player2, 0, None, None))
-        new_emparallament = cursor2.fetchone()  # Fetch the inserted row as a dictionary
-        conn2.commit()
+        cursor.execute(query, (new_ronda["id_ronda"], info_ronda.id_player1, 0, info_ronda.id_player2, 0, None, None))
+        new_emparallament = cursor.fetchone()  # Fetch the inserted row as a dictionary
+        conn.commit()
         print(f"Emparallament added with ID: {new_emparallament['id_emperallent']}")
         cursor.close()
         conn.close()
-        cursor2.close()
-        conn2.close()
     
         return {
             "id_ronda": new_ronda["id_ronda"],
