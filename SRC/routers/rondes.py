@@ -33,7 +33,8 @@ def add_ronda_to_db(info_ronda: NewRonda):
         print(f"Ronda added with ID: {new_ronda['id_ronda']}")
         query = """
             INSERT INTO public.emparallaments (id_ronda , id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2, id_usuari_guanyador, id_usuari_perdedor)
-            VALUES (%s, %s, %s, %s, %s, %s, %s);
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            RETURNING id_emperallent, id_ronda, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2, id_usuari_guanyador, id_usuari_perdedor;
         """
         cursor.execute(query, (new_ronda["id_ronda"], info_ronda.id_player1, 0, info_ronda.id_player2, 0, None, None))
         new_emparallament = cursor.fetchone()  # Fetch the inserted row as a dictionary
