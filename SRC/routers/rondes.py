@@ -28,14 +28,15 @@ def add_ronda_to_db(info_ronda: NewRonda):
             RETURNING id_ronda, id_torneig, estat;
         """
         cursor.execute(query, (info_ronda.id_torneig, "Started"))
-        new_ronda = cursor.fetchone() 
+        new_ronda = cursor.fetchone()  # Fetch the inserted row as a dictionary
         conn.commit()
         print(new_ronda)
-        print(f"Ronda added with ID: {new_ronda[0]}")
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return new_ronda
+        print(f"Ronda added with ID: {new_ronda['id_ronda']}")
+        return {
+            "id_ronda": new_ronda["id_ronda"],
+            "id_torneig": new_ronda["id_torneig"],
+            "estat": new_ronda["estat"]
+        }
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=400, detail=str(e))
