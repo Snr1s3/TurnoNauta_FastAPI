@@ -28,7 +28,11 @@ def add_ronda_to_db(info_ronda: NewRonda):
         cursor.execute(query, (info_ronda.id_torneig, "Started"))
         new_ronda = cursor.fetchone() 
         conn.commit()
+        print(new_ronda)
         print(f"Ronda added with ID: {new_ronda[0]}")
+        conn.commit()
+        cursor.close()
+        conn.close()
         return new_ronda
     except Exception as e:
         conn.rollback()
