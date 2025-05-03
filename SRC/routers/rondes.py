@@ -30,8 +30,18 @@ def add_ronda_to_db(info_ronda: NewRonda):
         cursor.execute(query, (info_ronda.id_torneig, "Started"))
         new_ronda = cursor.fetchone()  # Fetch the inserted row as a dictionary
         conn.commit()
-        print(new_ronda)
         print(f"Ronda added with ID: {new_ronda['id_ronda']}")
+        query = """
+            INSERT INTO public.emparallaments (id_ronda , id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2, id_usuari_guanyador, id_usuari_perdedor)
+            VALUES (%s, %s, %s, %s, %s, %s, %s);
+        """
+        cursor.execute(query, (new_ronda["id_ronda"], info_ronda.id_player1, 0, info_ronda.id_player2, 0, 1, 1))
+        new_emparallament = cursor.fetchone()  # Fetch the inserted row as a dictionary
+        conn.commit()
+        print(f"Emparallament added with ID: {new_emparallament['id_emperallent']}")
+        cursor.close()
+        conn.close()
+    
         return {
             "id_ronda": new_ronda["id_ronda"],
             "id_torneig": new_ronda["id_torneig"],
