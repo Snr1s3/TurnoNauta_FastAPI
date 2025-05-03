@@ -9,8 +9,8 @@ class Emparellaments(BaseModel):
     resultat_usuari_1: int
     id_usuari2: int
     resultat_usuari_2: int
-    id_usuari_guanyador: int
-    id_usuari_perdedor: int
+    id_usuari_guanyador: Optional[int]
+    id_usuari_perdedor: Optional[int]
 
 class Estadistiques(BaseModel):
     id_estats: Optional[int]
