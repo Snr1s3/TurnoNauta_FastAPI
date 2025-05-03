@@ -29,11 +29,7 @@ def add_ronda_to_db(info_ronda: NewRonda):
         new_ronda = cursor.fetchone() 
         conn.commit()
         print(f"Ronda added with ID: {new_ronda[0]}")
-        return {
-            "id_ronda": new_ronda[0],
-            "id_torneig": new_ronda[1],
-            "estat": new_ronda[2]
-        }
+        return new_ronda
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=400, detail=str(e))
