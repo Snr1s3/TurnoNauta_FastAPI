@@ -29,7 +29,14 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
+@app.get("/puntauacions/", response_model=List[Puntuacio])
+def get_puntuacions_all():
+    return get_puntuacions()
 
+
+@app.get("/rondes/", response_model=List[Ronda])
+def get_rondes_all():
+    return get_rondes()
 #####################################      Usuaris       #####################################
 
 @app.get("/users/", response_model=List[Usuaris])
@@ -185,9 +192,6 @@ def get_emparellaments_all():
 def get_formats_all():
     return get_formats()
 
-@app.get("/puntauacions/", response_model=List[Puntuacio])
-def get_puntuacions_all():
-    return get_puntuacions()
 
 @app.get("/rangs/", response_model=List[Rang])
 def get_rangs_all():
@@ -200,10 +204,6 @@ def get_resultats_all():
 @app.get("/rols/", response_model=List[Rol])
 def get_rols_all():
     return get_rols()
-
-@app.get("/rondes/", response_model=List[Ronda])
-def get_rondes_all():
-    return get_rondes()
 
 @app.get("/subscripcions/", response_model=List[Subscripcio])
 def get_subscripcions_all():
