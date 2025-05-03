@@ -6,7 +6,7 @@ def get_emparellaments():
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        query = 'SELECT * FROM "Emparellaments";'  # Use double quotes for case-sensitive table names
+        query = 'SELECT * FROM Emparellaments;'  # Use double quotes for case-sensitive table names
         cursor.execute(query)
         emparellaments = cursor.fetchall()
         return emparellaments
