@@ -25,7 +25,7 @@ def add_ronda_to_db(info_ronda: NewRonda):
             VALUES (%s, %s)
             RETURNING id_ronda, id_torneig, estat;
         """
-        cursor.execute(query, (info_ronda.id_torneig, info_ronda.estat))
+        cursor.execute(query, (info_ronda.id_torneig, "Started"))
         new_ronda = cursor.fetchone() 
         conn.commit()
         print(f"Ronda added with ID: {new_ronda[0]}")
