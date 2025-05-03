@@ -17,6 +17,8 @@ def get_rondes():
         release_db_connection(conn)
 
 def add_ronda_to_db(info_ronda: NewRonda):
+
+    print("Received request body:", info_ronda)
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
