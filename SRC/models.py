@@ -130,3 +130,8 @@ class NewPuntuacio(BaseModel):
     empat: int
     derrotes: int
     punts: int
+
+class NewRonda(BaseModel):
+    id_torneig: int
+    id_player1: int
+    id_player2: int

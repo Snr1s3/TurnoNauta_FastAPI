@@ -133,6 +133,11 @@ def add_puntuacio(puntuacio: NewPuntuacio):
         return add_puntuacio_to_db(puntuacio)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+#####################################   Afegir Ronda     #####################################
+@app.post("/rondes/add", response_model=Ronda)
+def add_ronda(info_ronda: NewRonda):
+    return add_ronda_to_db(info_ronda)
 ##################################### Usuaris update nom #####################################
 
 @app.put("/users/update_name/{user_id}", response_model=Usuaris)
