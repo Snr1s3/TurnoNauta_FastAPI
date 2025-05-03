@@ -20,17 +20,20 @@ def add_ronda_to_db(info_ronda: NewRonda):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        cursor.execute(
-            """
-            INSERT INTO Ronda (id_torneig, estat)
-            VALUES (%s, %s) RETURNING id_ronda;
-            """,
-            (info_ronda.id_torneig, "started")
-        )
-        id_ronda = cursor.fetchone()["id_ronda"]
+        query = """
+            INSERT INTO public.ronda (id_torneig, estat)
+            VALUES (%s, %s)
+            RETURNING id_ronda, id_torneig, estat;
+        """
+        cursor.execute(query, (info_ronda.id_torneig, info_ronda.estat))
+        new_ronda = cursor.fetchone() 
         conn.commit()
-        print(f"Ronda added with ID: {id_ronda}")
-        return {"id_ronda": id_ronda}
+        print(f"Ronda added with ID: {new_ronda[0]}")
+        return {
+            "id_ronda": new_ronda[0],
+            "id_torneig": new_ronda[1],
+            "estat": new_ronda[2]
+        }
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=400, detail=str(e))
