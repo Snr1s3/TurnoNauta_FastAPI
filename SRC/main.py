@@ -29,14 +29,20 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
+########################################      Puntuacio    #####################################
 @app.get("/puntauacions/", response_model=List[Puntuacio])
 def get_puntuacions_all():
     return get_puntuacions()
 
-
+######################################      Rondes     #####################################
 @app.get("/rondes/", response_model=List[Ronda])
 def get_rondes_all():
     return get_rondes()
+
+######################################      Emparellaments      #####################################
+@app.get("/emparellaments/", response_model=List[Emparellaments])
+def get_emparellaments_all():
+    return get_emparellaments()
 #####################################      Usuaris       #####################################
 
 @app.get("/users/", response_model=List[Usuaris])
@@ -184,9 +190,7 @@ def read_docs():
 def read_docs():
     return {"message": "This is the documentation endpoint."}
 
-@app.get("/emparellaments/", response_model=List[Emparellaments])
-def get_emparellaments_all():
-    return get_emparellaments()
+
 
 
 
