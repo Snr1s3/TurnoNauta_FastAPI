@@ -144,6 +144,8 @@ def add_puntuacio(puntuacio: NewPuntuacio):
 #####################################   Afegir Ronda     #####################################
 @app.post("/rondes/add", response_model=Ronda)
 def add_ronda(info_ronda: NewRonda):
+
+    print("Received request body:", info_ronda)
     return add_ronda_to_db(info_ronda)
 ##################################### Usuaris update nom #####################################
 
