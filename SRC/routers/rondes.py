@@ -88,3 +88,23 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def get_ronda_acabada_id(torneig_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        query = """
+            SELECT COUNT(*) FROM public.ronda
+            WHERE id_torneig = %s AND estat = 'Started';
+        """
+        cursor.execute(query, (torneig_id,))
+        count = cursor.fetchone()[0]  # Fetch the count
+        if count == 0:
+            return True
+        else:
+            return False
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)

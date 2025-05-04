@@ -54,6 +54,11 @@ def get_usuaris_all():
 @app.get("/tornejos/", response_model=List[Torneig])
 def get_tornejos_all():
     return get_torneig()
+
+#####################################  Get boolean rondes torneig acabades  #####################################
+@app.get("/rondes/ronda_acabada", response_model=bool)
+def get_ronda_acabada(torneig_id: int):
+    return get_ronda_acabada_id(torneig_id)
 #####################################  Puntuacio Torneig #####################################
 
 @app.get("/users/users_in_tournament", response_model=List[UserWithPoints])
