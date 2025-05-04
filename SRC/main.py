@@ -160,6 +160,10 @@ def update_user_name(user_id: int, update_name_request: UpdateNameRequest):
     username = update_name_request.username
     return update_username(user_id, username)
 
+##################################### Update ronda  #####################################
+@app.put("/rondes/update_ronda", response_model=Ronda)
+def update_ronda( update_ronda_request: UpdateRondaRequest):
+    return update_ronda_to_db(update_ronda_request)
 #################################### Delete Usuaris  #########################################
 @app.delete("/users/delete_by_id", response_model=bool)
 def delete_user_by_id(user_id: int):

@@ -135,3 +135,10 @@ class NewRonda(BaseModel):
     id_torneig: int
     id_player1: int
     id_player2: int
+
+class UpdateRondaRequest(BaseModel):
+    id_ronda: int
+    resultat_usuari_1: int
+    resultat_usuari_2: int
+    id_usuari_guanyador: int
+    id_usuari_perdedor: int

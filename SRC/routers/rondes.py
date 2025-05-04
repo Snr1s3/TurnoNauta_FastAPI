@@ -54,3 +54,37 @@ def add_ronda_to_db(info_ronda: NewRonda):
     finally:
         cursor.close()
         release_db_connection(conn)
+
+def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        query = """
+            UPDATE public.ronda
+            SET estat = %s
+            WHERE id_ronda = %s
+            RETURNING id_ronda, id_torneig, estat;
+        """
+        cursor.execute(query, ("Done", update_ronda_request.id_ronda))
+        updated_ronda = cursor.fetchone()  # Fetch the updated row as a dictionary
+        conn.commit()
+        query = """
+            UPDATE public.emparallaments
+            SET resultat_usuari_1 = %s, resultat_usuari_2 = %s, id_usuari_guanyador = %s, id_usuari_perdedor = %s
+            WHERE id_ronda = %s 
+            RETURNING id_emperallent, id_ronda, id_usuari1, resultat_usuari_1, id_usuari2, resultat_usuari_2, id_usuari_guanyador, id_usuari_perdedor;
+        """
+        cursor.execute(query, (update_ronda_request.resultat_usuari_1, update_ronda_request.resultat_usuari_2, update_ronda_request.id_usuari_guanyador, update_ronda_request.id_usuari_perdedor, update_ronda_request.id_ronda))
+        updated_emparallament = cursor.fetchone()  # Fetch the updated row as a dictionary
+        conn.commit()
+        return {
+            "id_ronda": updated_ronda["id_ronda"],
+            "id_torneig": updated_ronda["id_torneig"],
+            "estat": updated_ronda["estat"]
+        }
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
