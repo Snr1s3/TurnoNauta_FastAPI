@@ -56,7 +56,7 @@ def get_tornejos_all():
     return get_torneig()
 
 #####################################  Get boolean rondes torneig acabades  #####################################
-@app.get("/rondes/ronda_acabada", response_model=bool)
+@app.get("/rondes/ronda_acabada", response_model=int)
 def get_ronda_acabada(torneig_id: int):
     return get_ronda_acabada_id(torneig_id)
 #####################################  Puntuacio Torneig #####################################

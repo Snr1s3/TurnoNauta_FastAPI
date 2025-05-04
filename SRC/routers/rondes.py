@@ -18,7 +18,7 @@ def get_rondes():
 
 def add_ronda_to_db(info_ronda: NewRonda):
 
-    print("Received request body:", info_ronda)
+    #print("Received request body:", info_ronda)
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -92,6 +92,7 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
 def get_ronda_acabada_id(torneig_id):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
+    print(f"Checking if there are any started rounds for tournament {torneig_id}")
     try:
         query = """
             SELECT COUNT(*) FROM public.ronda
@@ -99,10 +100,8 @@ def get_ronda_acabada_id(torneig_id):
         """
         cursor.execute(query, (torneig_id,))
         count = cursor.fetchone()[0]  # Fetch the count
-        if count == 0:
-            return True
-        else:
-            return False
+        print(f"Count of started rounds for tournament {torneig_id}: {count}")
+        return count
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:
