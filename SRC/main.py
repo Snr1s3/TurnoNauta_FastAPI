@@ -180,6 +180,14 @@ def delete_puntuacions_by_user_id(user_id: int, tournament_id: int):
 @app.delete("/emparellaments/delete_emparellament_torneig/{torneig_id}")
 def delete_emparellament_torneig(torneig_id: int):
     return delete_emparellament_torneig_id(torneig_id)
+
+@app.get("/")
+def read_docs():
+    return read_docs()
+
+@app.get("/docs")
+def read_docs():
+    return {"message": "This is the documentation endpoint."}
 """
 
 ##################################### GET METHODS #####################################
@@ -190,7 +198,7 @@ def delete_emparellament_torneig(torneig_id: int):
 
 @app.get("/")
 def read_docs():
-    return {"message": "Turnonauta API"}
+    return read_docs()
 
 @app.get("/docs")
 def read_docs():
