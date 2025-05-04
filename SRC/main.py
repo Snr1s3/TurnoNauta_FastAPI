@@ -175,7 +175,13 @@ def delete_puntuacions(torneig_id: int):
 @app.delete("/puntuacions/delete_by_user/{user_id}/{tournament_id}")
 def delete_puntuacions_by_user_id(user_id: int, tournament_id: int):
     return delete_puntuacions_by_user(user_id, tournament_id)
+
+##################################### Delete emparellaments i ronda  #########################################
+@app.delete("/emparellaments/delete_emparellament_torneig/{torneig_id}")
+def delete_emparellament_torneig(torneig_id: int):
+    return delete_emparellament_torneig_id(torneig_id)
 """
+
 ##################################### GET METHODS #####################################
 
 
