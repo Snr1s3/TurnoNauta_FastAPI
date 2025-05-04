@@ -25,7 +25,7 @@ def delete_emparellament_torneig_id(torneig_id: int):
     try:
         # Start a transaction
         query_get_rondas = """
-            SELECT id_ronda FROM rondas WHERE id_torneig = %s;
+            SELECT id_ronda FROM ronda WHERE id_torneig = %s;
         """
         cursor.execute(query_get_rondas, (torneig_id,))
         rondas = cursor.fetchall()
@@ -42,7 +42,7 @@ def delete_emparellament_torneig_id(torneig_id: int):
 
         # Delete the rondas associated with the tournament
         query_delete_rondas = """
-            DELETE FROM rondas WHERE id_torneig = %s;
+            DELETE FROM ronda WHERE id_torneig = %s;
         """
         cursor.execute(query_delete_rondas, (torneig_id,))
 
