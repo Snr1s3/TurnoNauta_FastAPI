@@ -89,21 +89,27 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
         cursor.close()
         release_db_connection(conn)
 
-def get_ronda_acabada_id(torneig_id):
+def get_ronda_acabada_id(torneig_id: int):
+    """
+    Check if there are any started rounds for a given tournament ID.
+    Returns the count of started rounds.
+    """
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     print(f"Checking if there are any started rounds for tournament {torneig_id}")
     try:
         query = """
-            SELECT COUNT(*) FROM public.ronda
+            SELECT COUNT(*) AS started_count FROM public.ronda
             WHERE id_torneig = %s AND estat = 'Started';
         """
         cursor.execute(query, (torneig_id,))
-        count = cursor.fetchone()[0]  # Fetch the count
+        result = cursor.fetchone()  # Fetch the result as a dictionary
+        count = result["started_count"] if result else 0
         print(f"Count of started rounds for tournament {torneig_id}: {count}")
         return count
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        print(f"Error while checking started rounds: {e}")
+        raise HTTPException(status_code=400, detail="Error checking started rounds")
     finally:
         cursor.close()
         release_db_connection(conn)
