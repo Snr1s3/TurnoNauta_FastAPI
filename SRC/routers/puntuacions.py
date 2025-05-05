@@ -16,6 +16,23 @@ def get_puntuacions():
         cursor.close()
         release_db_connection(conn)
 
+def get_putuacio_by_sos(torneig_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        query = """
+            SELECT * FROM public.puntuacio
+            WHERE id_torneig = %s
+            ORDER BY sos ASC;
+        """
+        cursor.execute(query, (torneig_id,))
+        puntuacions = cursor.fetchall()
+        return puntuacions
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
 def get_puntuacio_id(torneig_id: int):
     """
     Retrieve all puntuacions for a specific tournament ID.
