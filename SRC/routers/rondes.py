@@ -154,6 +154,7 @@ def get_ronda_acabada_id(torneig_id: int):
         cursor.execute(query, (torneig_id,))
         result = cursor.fetchone()  # Fetch the result as a dictionary
         count = result["started_count"] if result else 0
+        return count
     except Exception as e:
         print(f"Error while checking started rounds: {e}")
         raise HTTPException(status_code=400, detail="Error checking started rounds")
