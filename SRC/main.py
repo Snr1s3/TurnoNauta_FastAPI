@@ -68,13 +68,13 @@ def get_users_in_tournament(torneig_id: int):
 
 ##################################### Get puntuacions Torneig per id  #####################################
 @app.get("/puntuacions/get_by_tournament/{puntuacio_id}", response_model=List[Puntuacio])
-def get_puntuacio_by_id(puntuacio_id: int):
-    return get_puntuacio_id(puntuacio_id)
+def get_puntuacio_by_id(torneig_id: int):
+    return get_puntuacio_id(torneig_id)
 
 ##################################### Get puntuacions Torneig per id ASC #####################################
 @app.get("/puntuacions/get_by_tournament_ordered/{torneig_id}", response_model=List[Puntuacio])
-def get_puntuacions_by_tournament_ordered(puntuacio_id: int):
-    return get_puntuacio_id(puntuacio_id)
+def get_puntuacions_by_tournament_ordered(torneig_id: int):
+    return get_putuacio_by_sos(torneig_id)
 ##################################### Usuaris check nom  #####################################
 
 @app.get("/users/check_username", response_model=bool)
