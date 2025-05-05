@@ -82,7 +82,7 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             WHERE id_usuari = %s AND id_torneig = %s;
         """
 
-        print(2 * update_ronda_request.resultat_usuari_1, )
+        print(2 * update_ronda_request.resultat_usuari_1 )
         print(update_ronda_request.resultat_usuari_1)
         print(update_ronda_request.resultat_usuari_2)
         print(update_ronda_request.id_usuari_1)
@@ -90,7 +90,7 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             2 * update_ronda_request.resultat_usuari_1, 
             update_ronda_request.resultat_usuari_1,
             update_ronda_request.resultat_usuari_2, 
-            update_ronda_request.id_usuari_2, 
+            update_ronda_request.id_usuari_1, 
             updated_ronda["id_torneig"]
         ))
         conn.commit()
@@ -101,11 +101,15 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             SET punts = punts + %s, victories = victories + %s, derrotes = derrotes + %s
             WHERE id_usuari = %s AND id_torneig = %s;
         """
+        print(2 * update_ronda_request.resultat_usuari_2 )
+        print(update_ronda_request.resultat_usuari_2)
+        print(update_ronda_request.resultat_usuari_1)
+        print(update_ronda_request.id_usuari_2)
         cursor.execute(query, (
             2 * update_ronda_request.resultat_usuari_2, 
             update_ronda_request.resultat_usuari_2,
             update_ronda_request.resultat_usuari_1, 
-            update_ronda_request.id_usuari_perdedor, 
+            update_ronda_request.id_usuari_2, 
             updated_ronda["id_torneig"]
         ))
         print(f"Emparallament updated with ID: {updated_emparallament['id_emperallent']}")
