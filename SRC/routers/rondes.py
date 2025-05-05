@@ -76,6 +76,34 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
         """
         cursor.execute(query, (update_ronda_request.resultat_usuari_1, update_ronda_request.resultat_usuari_2, update_ronda_request.id_usuari_guanyador, update_ronda_request.id_usuari_perdedor, update_ronda_request.id_ronda))
         updated_emparallament = cursor.fetchone()  # Fetch the updated row as a dictionary
+        query = """
+            UPDATE public.puntuacio
+            SET punts = punts + %s, victories = victories + %s, derrotes = derrotes + %s
+            WHERE id_usuari = %s AND id_torneig = %s;
+        """
+        cursor.execute(query, (
+            2 * update_ronda_request.resultat_usuari_1, 
+            update_ronda_request.resultat_usuari_1,
+            update_ronda_request.resultat_usuari_2, 
+            update_ronda_request.id_usuari_guanyador, 
+            updated_ronda["id_torneig"]
+        ))
+        conn.commit()
+
+        # Update the 'puntuacio' table for the loser
+        query = """
+            UPDATE public.puntuacio
+            SET punts = punts + %s, victories = victories + %s, derrotes = derrotes + %s
+            WHERE id_usuari = %s AND id_torneig = %s;
+        """
+        cursor.execute(query, (
+            2 * update_ronda_request.resultat_usuari_2, 
+            update_ronda_request.resultat_usuari_2,
+            update_ronda_request.resultat_usuari_1, 
+            update_ronda_request.id_usuari_guanyador, 
+            updated_ronda["id_torneig"]
+        ))
+        print(f"Emparallament updated with ID: {updated_emparallament['id_emperallent']}")
         conn.commit()
         return {
             "id_ronda": updated_ronda["id_ronda"],
