@@ -21,11 +21,27 @@ def get_putuacio_by_sos(torneig_id: int):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         query = """
-            SELECT * FROM public.puntuacio
-            WHERE id_torneig = %s
-            ORDER BY sos ASC;
+            WITH ordered_puntuacions AS (
+                SELECT *
+                FROM public.puntuacio
+                WHERE id_torneig = %s
+                ORDER BY sos ASC
+            ),
+            conflicts AS (
+                SELECT p1.id_usuari AS player1, p2.id_usuari AS player2
+                FROM public.emparallaments e
+                JOIN public.puntuacio p1 ON e.id_usuari1 = p1.id_usuari AND p1.id_torneig = %s
+                JOIN public.puntuacio p2 ON e.id_usuari2 = p2.id_usuari AND p2.id_torneig = %s
+            )
+            SELECT *
+            FROM ordered_puntuacions op
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM conflicts c
+                WHERE (c.player1 = op.id_usuari OR c.player2 = op.id_usuari)
+            );
         """
-        cursor.execute(query, (torneig_id,))
+        cursor.execute(query, (torneig_id, torneig_id, torneig_id))
         puntuacions = cursor.fetchall()
         return puntuacions
     except Exception as e:
