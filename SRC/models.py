@@ -138,7 +138,9 @@ class NewRonda(BaseModel):
 
 class UpdateRondaRequest(BaseModel):
     id_ronda: int
+    id_usuari_1: int
     resultat_usuari_1: int
+    id_usuari_2: int
     resultat_usuari_2: int
     id_usuari_guanyador: int
     id_usuari_perdedor: int
