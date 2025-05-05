@@ -100,7 +100,7 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             2 * update_ronda_request.resultat_usuari_2, 
             update_ronda_request.resultat_usuari_2,
             update_ronda_request.resultat_usuari_1, 
-            update_ronda_request.id_usuari_guanyador, 
+            update_ronda_request.id_usuari_perdedor, 
             updated_ronda["id_torneig"]
         ))
         print(f"Emparallament updated with ID: {updated_emparallament['id_emperallent']}")
