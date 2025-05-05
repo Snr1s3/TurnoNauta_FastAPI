@@ -63,6 +63,7 @@ def get_puntuacio_id(torneig_id: int):
         """
         cursor.execute(query, (torneig_id,))
         puntuacions = cursor.fetchall()
+        print(f"Retrieved puntuacions: {puntuacions}")
         if not puntuacions:
             raise HTTPException(status_code=404, detail="No puntuacions found for the specified tournament ID")
         return puntuacions
