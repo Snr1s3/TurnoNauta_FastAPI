@@ -105,6 +105,27 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
         ))
         print(f"Emparallament updated with ID: {updated_emparallament['id_emperallent']}")
         conn.commit()
+
+        query = """
+            UPDATE public.puntuacio AS p
+            SET sos = subquery.total_opponent_points
+            FROM (
+                SELECT e.id_usuari1 AS player_id, SUM(p2.punts) AS total_opponent_points
+                FROM public.emparallaments e
+                JOIN public.puntuacio p2 ON e.id_usuari2 = p2.id_usuari AND p2.id_torneig = %s
+                WHERE e.id_ronda IN (
+                    SELECT id_ronda FROM public.ronda WHERE id_torneig = %s
+                )
+                GROUP BY e.id_usuari1
+            ) AS subquery
+            WHERE p.id_usuari = subquery.player_id AND p.id_torneig = %s;
+        """
+        cursor.execute(query, (
+            updated_ronda["id_torneig"], 
+            updated_ronda["id_torneig"], 
+            updated_ronda["id_torneig"]
+        ))
+        conn.commit()
         return {
             "id_ronda": updated_ronda["id_ronda"],
             "id_torneig": updated_ronda["id_torneig"],
@@ -133,8 +154,6 @@ def get_ronda_acabada_id(torneig_id: int):
         cursor.execute(query, (torneig_id,))
         result = cursor.fetchone()  # Fetch the result as a dictionary
         count = result["started_count"] if result else 0
-        print(f"Count of started rounds for tournament {torneig_id}: {count}")
-        return count
     except Exception as e:
         print(f"Error while checking started rounds: {e}")
         raise HTTPException(status_code=400, detail="Error checking started rounds")
