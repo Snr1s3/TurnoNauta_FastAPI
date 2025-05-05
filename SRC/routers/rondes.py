@@ -119,17 +119,29 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             UPDATE public.puntuacio AS p
             SET sos = subquery.total_opponent_points
             FROM (
-                SELECT e.id_usuari1 AS player_id, SUM(p2.punts) AS total_opponent_points
-                FROM public.emparallaments e
-                JOIN public.puntuacio p2 ON e.id_usuari2 = p2.id_usuari AND p2.id_torneig = %s
-                WHERE e.id_ronda IN (
-                    SELECT id_ronda FROM public.ronda WHERE id_torneig = %s
-                )
-                GROUP BY e.id_usuari1
+                SELECT player_id, SUM(opponent_points) AS total_opponent_points
+                FROM (
+                    SELECT e.id_usuari1 AS player_id, p2.punts AS opponent_points
+                    FROM public.emparallaments e
+                    JOIN public.puntuacio p2 ON e.id_usuari2 = p2.id_usuari AND p2.id_torneig = %s
+                    WHERE e.id_ronda IN (
+                        SELECT id_ronda FROM public.ronda WHERE id_torneig = %s
+                    )
+                    UNION ALL
+                    SELECT e.id_usuari2 AS player_id, p1.punts AS opponent_points
+                    FROM public.emparallaments e
+                    JOIN public.puntuacio p1 ON e.id_usuari1 = p1.id_usuari AND p1.id_torneig = %s
+                    WHERE e.id_ronda IN (
+                        SELECT id_ronda FROM public.ronda WHERE id_torneig = %s
+                    )
+                ) AS combined
+                GROUP BY player_id
             ) AS subquery
             WHERE p.id_usuari = subquery.player_id AND p.id_torneig = %s;
         """
         cursor.execute(query, (
+            updated_ronda["id_torneig"], 
+            updated_ronda["id_torneig"], 
             updated_ronda["id_torneig"], 
             updated_ronda["id_torneig"], 
             updated_ronda["id_torneig"]
