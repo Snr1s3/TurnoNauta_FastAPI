@@ -15,14 +15,14 @@ class Emparellaments(BaseModel):
 class EmparellamentNom(BaseModel):
     id_emperallent: Optional[int]
     id_ronda: Optional[int]
-    nom_usuari1: str
     id_usuari1: int
     resultat_usuari_1: int
-    nom_usuari2: str
     id_usuari2: int
     resultat_usuari_2: int
     id_usuari_guanyador: Optional[int]
     id_usuari_perdedor: Optional[int]
+    nom_usuari1: str
+    nom_usuari2: str
 
 class Estadistiques(BaseModel):
     id_estats: Optional[int]
