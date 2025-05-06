@@ -69,8 +69,8 @@ def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
                    u2.nom AS nom_usuari2
             FROM public.emparallaments e
             JOIN public.ronda r ON e.id_ronda = r.id_ronda
-            LEFT JOIN public.usuaris u1 ON e.id_usuari1 = u1.id_usuari
-            LEFT JOIN public.usuaris u2 ON e.id_usuari2 = u2.id_usuari
+            LEFT JOIN public.usuaris u1 ON e.id_usuari1 = u1.id_usuaris
+            LEFT JOIN public.usuaris u2 ON e.id_usuari2 = u2.id_usuaris
             WHERE r.id_torneig = %s
               AND r.estat = 'Started'
               AND (e.id_usuari1 = %s OR e.id_usuari2 = %s);
