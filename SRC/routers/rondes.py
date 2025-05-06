@@ -72,7 +72,7 @@ def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
               AND (e.id_usuari1 = %s OR e.id_usuari2 = %s);
         """
         cursor.execute(query, (torneig_id, player_id, player_id))
-        pairings = cursor.fetchall()  # Fetch all matching rows
+        pairings = cursor.fetchone()  # Fetch all matching rows
         return pairings
     except Exception as e:
         print(f"Error while retrieving pairings: {e}")
@@ -80,7 +80,7 @@ def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
     finally:
         cursor.close()
         release_db_connection(conn)
-        
+
 def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
