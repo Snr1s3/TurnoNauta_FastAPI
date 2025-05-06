@@ -81,6 +81,7 @@ def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
         cursor.close()
         release_db_connection(conn)
 
+
 def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
