@@ -43,6 +43,7 @@ def get_putuacio_by_sos(torneig_id: int):
         """
         cursor.execute(query, (torneig_id, torneig_id, torneig_id))
         puntuacions = cursor.fetchall()
+        print(puntuacions)
         return puntuacions
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
