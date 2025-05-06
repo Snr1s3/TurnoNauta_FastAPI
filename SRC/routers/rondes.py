@@ -65,8 +65,8 @@ def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
     try:
         query = """
             SELECT e.*, 
-                   u1.nom AS nom_usuari1, 
-                   u2.nom AS nom_usuari2
+                   u1.username AS nom_usuari1, 
+                   u2.username AS nom_usuari2
             FROM public.emparallaments e
             JOIN public.ronda r ON e.id_ronda = r.id_ronda
             LEFT JOIN public.usuaris u1 ON e.id_usuari1 = u1.id_usuaris
