@@ -58,21 +58,25 @@ def add_ronda_to_db(info_ronda: NewRonda):
 def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
     """
     Retrieve pairing by player ID (id_usuari1 or id_usuari2) and tournament ID (id_torneig)
-    where the round is in the 'Started' state.
+    where the round is in the 'Started' state, including player names.
     """
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         query = """
-            SELECT e.*
+            SELECT e.*, 
+                   u1.nom AS nom_usuari1, 
+                   u2.nom AS nom_usuari2
             FROM public.emparallaments e
             JOIN public.ronda r ON e.id_ronda = r.id_ronda
+            LEFT JOIN public.usuaris u1 ON e.id_usuari1 = u1.id_usuari
+            LEFT JOIN public.usuaris u2 ON e.id_usuari2 = u2.id_usuari
             WHERE r.id_torneig = %s
               AND r.estat = 'Started'
               AND (e.id_usuari1 = %s OR e.id_usuari2 = %s);
         """
         cursor.execute(query, (torneig_id, player_id, player_id))
-        pairings = cursor.fetchone()  # Fetch all matching rows
+        pairings = cursor.fetchone()  # Fetch the first matching row
         return pairings
     except Exception as e:
         print(f"Error while retrieving pairings: {e}")
