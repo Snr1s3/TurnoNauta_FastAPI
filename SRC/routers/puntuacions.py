@@ -35,7 +35,7 @@ def get_putuacio_by_sos(torneig_id: int):
             )
             SELECT *
             FROM ordered_puntuacions op
-            WHERE NOT EXISTS (
+            WHERE EXISTS (
                 SELECT 1
                 FROM conflicts c
                 WHERE (c.player1 = op.id_usuari OR c.player2 = op.id_usuari)
