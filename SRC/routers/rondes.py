@@ -55,6 +55,32 @@ def add_ronda_to_db(info_ronda: NewRonda):
         cursor.close()
         release_db_connection(conn)
 
+def get_pairing_by_player_and_tournament(player_id: int, torneig_id: int):
+    """
+    Retrieve pairing by player ID (id_usuari1 or id_usuari2) and tournament ID (id_torneig)
+    where the round is in the 'Started' state.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        query = """
+            SELECT e.*
+            FROM public.emparallaments e
+            JOIN public.ronda r ON e.id_ronda = r.id_ronda
+            WHERE r.id_torneig = %s
+              AND r.estat = 'Started'
+              AND (e.id_usuari1 = %s OR e.id_usuari2 = %s);
+        """
+        cursor.execute(query, (torneig_id, player_id, player_id))
+        pairings = cursor.fetchall()  # Fetch all matching rows
+        return pairings
+    except Exception as e:
+        print(f"Error while retrieving pairings: {e}")
+        raise HTTPException(status_code=400, detail="Error retrieving pairings")
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+        
 def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
