@@ -118,7 +118,7 @@ def get_active_tournaments():
     return get_active_tournaments_from_db()
 
 #####################################   New Pairing  #####################################
-@app.get("/rondas/get_new_pairing", response_model=Ronda)
+@app.get("/rondas/get_new_pairing", response_model=Emparellaments)
 def get_ronda_by_torneig(torneig_id: int, usuari_id: int):
     return get_pairing_by_player_and_tournament(usuari_id, torneig_id)
 #####################################   Tornejos Actius per ID   #####################################
