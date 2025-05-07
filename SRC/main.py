@@ -175,8 +175,8 @@ def update_user_name(user_id: int, update_name_request: UpdateNameRequest):
 
 ##################################### Usuaris update password #####################################
 @app.put("/users/update_password/{user_id}", response_model=bool)
-def update_password(user_id: int, password_update_request: PasswordUpdateRequest):
-    success = update_user_password_in_db(user_id, password_update_request.new_password)
+def update_password(user_id: int, password: str):
+    success = update_user_password_in_db(user_id,password)
     if not success:
         raise HTTPException(status_code=400, detail="Failed to update password.")
     return success
