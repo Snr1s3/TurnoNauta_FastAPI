@@ -15,7 +15,25 @@ def get_usuaris():
     finally:
         cursor.close()
         release_db_connection(conn)
-
+def update_user_password_in_db(user_id: int, new_password: str) -> bool:
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "UPDATE usuaris SET contrasenya = %s WHERE id_usuaris = %s RETURNING *;",
+            (new_password, user_id)
+        )
+        updated_user = cursor.fetchone()
+        if not updated_user:
+            raise HTTPException(status_code=404, detail="User not found")
+        conn.commit()
+        return True
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
 def get_usuari_id(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)

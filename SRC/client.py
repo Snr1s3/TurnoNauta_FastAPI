@@ -8,10 +8,8 @@ db_config = {
     'database': 'turnonauta',
     'port': 5432
 }
-
 # Pool de conexiones
 db_pool = pool.SimpleConnectionPool(1, 30, **db_config)
-
 def get_db_connection():
     conn = db_pool.getconn()
     try:
