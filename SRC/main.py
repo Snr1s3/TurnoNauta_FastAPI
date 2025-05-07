@@ -183,7 +183,7 @@ def update_password(user_id: int, password: str):
 ##################################### Update ronda  #####################################
 @app.put("/rondes/update_ronda", response_model=Ronda)
 def update_ronda( update_ronda_request: UpdateRondaRequest):
-    return update_ronda_to_db(update_ronda_request)\
+    return update_ronda_to_db(update_ronda_request)
     
 #################################### Delete Usuaris  #########################################
 @app.delete("/users/delete_by_id", response_model=bool)
