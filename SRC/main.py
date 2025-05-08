@@ -191,7 +191,7 @@ def update_ronda( update_ronda_request: UpdateRondaRequest):
     return update_ronda_to_db(update_ronda_request)
     
 #################################### Delete Usuaris  #########################################
-@app.delete("/users/delete_by_id", response_model=bool)
+@app.delete("/users/delete_by_id/{user_id}", response_model=bool)
 def delete_user_by_id(user_id: int):
     return delete_user_id(user_id)
     
