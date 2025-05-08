@@ -89,8 +89,8 @@ def check_username_exists(username: str):
 ##################################### Usuaris check nom  #####################################
 
 @app.get("/users/check_mail", response_model=bool)
-def check_mail_exists(mai: str):
-    return check_mail(mail)
+def check_mail_exists(mail: str):
+    return check_email_exists(mail)
 
 #####################################       Login        #####################################
 
@@ -186,8 +186,8 @@ def update_user_name(user_id: int, update_name_request: UpdateNameRequest):
 
 ##################################### Usuaris update password #####################################
 @app.put("/users/update_password/", response_model=bool)
-def update_password(mail: int, password: str):
-    success = update_user_password_in_db(mail,password)
+def update_password( PasswordUpdateRequest: PasswordUpdateRequest):
+    success = update_user_password_in_db(PasswordUpdateRequest.email, PasswordUpdateRequest.novaContrasenya)
     if not success:
         raise HTTPException(status_code=400, detail="Failed to update password.")
     return success

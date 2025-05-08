@@ -59,7 +59,7 @@ class PuntuacioName(BaseModel):
     derrotes: int
     punts: int
     
-    
+
 class Rang(BaseModel):
     id_rang: Optional[int]
     nom: str
@@ -167,3 +167,7 @@ class UpdateRondaRequest(BaseModel):
     resultat_usuari_2: int
     id_usuari_guanyador: int
     id_usuari_perdedor: int
+
+class PasswordUpdateRequest(BaseModel):
+    email: str
+    novaContrasenya: str
