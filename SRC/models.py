@@ -49,6 +49,17 @@ class Puntuacio(BaseModel):
     derrotes: int
     punts: int
 
+class PuntuacioName(BaseModel):
+    id_torneig: int
+    id_usuari: int
+    nom: str
+    sos: int
+    victories: int
+    empat: int
+    derrotes: int
+    punts: int
+    
+    
 class Rang(BaseModel):
     id_rang: Optional[int]
     nom: str

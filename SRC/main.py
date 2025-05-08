@@ -75,6 +75,11 @@ def get_puntuacio_by_id(torneig_id: int):
 @app.get("/puntuacions/get_by_tournament_ordered/{torneig_id}", response_model=List[Puntuacio])
 def get_puntuacions_by_tournament_ordered(torneig_id: int):
     return get_putuacio_by_sos(torneig_id)
+
+##################################### Get puntuacions Torneig per id ASC #####################################
+@app.get("/puntuacions/get_by_tournament_ordered_and_name/{torneig_id}", response_model=List[PuntuacioName])
+def get_puntuacions_by_tournament_orderedname(torneig_id: int):
+    return get_putuacio_by_sosname(torneig_id)
 ##################################### Usuaris check nom  #####################################
 
 @app.get("/users/check_username", response_model=bool)
