@@ -15,13 +15,14 @@ def get_usuaris():
     finally:
         cursor.close()
         release_db_connection(conn)
-def update_user_password_in_db(user_id: int, new_password: str) -> bool:
+def update_user_password_in_db(mail: str, new_password: str) -> bool:
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
+        # Update the password using the email (mail)
         cursor.execute(
-            "UPDATE usuaris SET contrasenya = %s WHERE id_usuaris = %s RETURNING *;",
-            (new_password, user_id)
+            "UPDATE usuaris SET contrasenya = %s WHERE email = %s RETURNING *;",
+            (new_password, mail)
         )
         updated_user = cursor.fetchone()
         if not updated_user:
@@ -34,6 +35,7 @@ def update_user_password_in_db(user_id: int, new_password: str) -> bool:
     finally:
         cursor.close()
         release_db_connection(conn)
+
 def get_usuari_id(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -155,6 +157,20 @@ def check_username(username: str):
         cursor.execute("SELECT EXISTS(SELECT 1 FROM usuaris WHERE username = %s);", (username,))
         result = cursor.fetchone()
         return result[0]  
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        release_db_connection(conn)
+        
+def check_email_exists(mail: str) -> bool:
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # Check if the email exists in the database
+        cursor.execute("SELECT EXISTS(SELECT 1 FROM usuaris WHERE email = %s);", (mail,))
+        result = cursor.fetchone()
+        return result[0]  # Return True if the email exists, otherwise False
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     finally:

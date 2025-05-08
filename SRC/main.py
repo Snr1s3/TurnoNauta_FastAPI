@@ -86,6 +86,12 @@ def get_puntuacions_by_tournament_orderedname(torneig_id: int):
 def check_username_exists(username: str):
     return check_username(username)
 
+##################################### Usuaris check nom  #####################################
+
+@app.get("/users/check_mail", response_model=bool)
+def check_mail_exists(mai: str):
+    return check_mail(mail)
+
 #####################################       Login        #####################################
 
 @app.get("/users/login")
@@ -179,9 +185,9 @@ def update_user_name(user_id: int, update_name_request: UpdateNameRequest):
     return update_username(user_id, username)
 
 ##################################### Usuaris update password #####################################
-@app.put("/users/update_password/{user_id}", response_model=bool)
-def update_password(user_id: int, password: str):
-    success = update_user_password_in_db(user_id,password)
+@app.put("/users/update_password/", response_model=bool)
+def update_password(mail: int, password: str):
+    success = update_user_password_in_db(mail,password)
     if not success:
         raise HTTPException(status_code=400, detail="Failed to update password.")
     return success
