@@ -72,30 +72,48 @@ def verify_user_statistics(id_usuaris: int):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         # Retrieve user information
-        cursor.execute("SELECT id_usuaris, username FROM usuaris WHERE id_usuaris = %s", (id_usuaris,))
+        cursor.execute("SELECT username FROM usuaris WHERE id_usuaris = %s", (user_id,))
         user = cursor.fetchone()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
-        # Retrieve user statistics
+        username = user['username']
+
+        # Count how many times the user appears in puntuacio
+        cursor.execute("SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s", (user_id,))
+        count_puntuacions = cursor.fetchone()['count']
+
+        # Count how many times the user has the highest points in tournaments
         cursor.execute("""
-            SELECT u.username, e.partides_jugades, e.partides_guanyades, e.tornejos_jugats, e.tornejos_guanyats
-            FROM usuaris u
-            JOIN estadistiques e ON u.id_usuaris = e.id_usuari
-            WHERE u.id_usuaris = %s
-        """, (id_usuaris,))
+            SELECT COUNT(*) 
+            FROM puntuacio p
+            WHERE p.id_usuari = %s AND p.punts = (
+                SELECT MAX(p2.punts) 
+                FROM puntuacio p2 
+                WHERE p2.id_torneig = p.id_torneig
+            )
+        """, (user_id,))
+        count_highest_points = cursor.fetchone()['count']
+
+        # Sum of partides guanyades and perdudes
+        cursor.execute("""
+            SELECT SUM(partides_guanyades) AS total_wins, 
+                   SUM(partides_perdudes) AS total_losses
+            FROM estadistiques
+            WHERE id_usuari = %s
+        """, (user_id,))
         stats = cursor.fetchone()
+        total_wins = stats['total_wins'] or 0
+        total_losses = stats['total_losses'] or 0
 
-        if not stats:
-            raise HTTPException(status_code=404, detail="User or statistics not found")
-
+        # Return the UserStatistics object
         return UserStatistics(
-            id=id_usuaris,
-            username=stats['username'],
-            rounds_played=stats['partides_jugades'],
-            rounds_won=stats['partides_guanyades'],
-            tournaments_played=stats['tornejos_jugats'],
-            tournaments_won=stats['tornejos_guanyats']
+            id=user_id,
+            username=username,
+            rounds_played=total_wins + total_losses,
+            rounds_won=total_wins,
+            tournaments_played=count_puntuacions,
+            tournaments_won=count_highest_points
         )
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
