@@ -89,8 +89,8 @@ def check_username_exists(username: str):
 ##################################### Usuaris check nom  #####################################
 
 @app.get("/users/check_mail", response_model=bool)
-def check_mail_exists(mail: str):
-    return check_email_exists(mail)
+def check_mail_exists(email: str):
+    return check_email_exists(email)
 
 #####################################       Login        #####################################
 
