@@ -98,8 +98,8 @@ def verify_user_statistics(id_usuaris: int):
         # Sum of partides guanyades and perdudes
         cursor.execute("""
             SELECT SUM(victories) AS total_wins, 
-                   SUM(derrotes) AS total_losses
-            FROM estadistiques
+                SUM(derrotes) AS total_losses
+            FROM public.puntuacio
             WHERE id_usuari = %s
         """, (id_usuaris,))
         stats = cursor.fetchone()
