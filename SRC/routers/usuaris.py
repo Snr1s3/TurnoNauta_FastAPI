@@ -72,7 +72,7 @@ def verify_user_statistics(id_usuaris: int):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         # Retrieve user information
-        cursor.execute("SELECT username FROM usuaris WHERE id_usuaris = %s", (user_id,))
+        cursor.execute("SELECT username FROM usuaris WHERE id_usuaris = %s", (id_usuaris,))
         user = cursor.fetchone()
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
@@ -80,7 +80,7 @@ def verify_user_statistics(id_usuaris: int):
         username = user['username']
 
         # Count how many times the user appears in puntuacio
-        cursor.execute("SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s", (user_id,))
+        cursor.execute("SELECT COUNT(*) FROM puntuacio WHERE id_usuari = %s", (id_usuaris,))
         count_puntuacions = cursor.fetchone()['count']
 
         # Count how many times the user has the highest points in tournaments
@@ -92,7 +92,7 @@ def verify_user_statistics(id_usuaris: int):
                 FROM puntuacio p2 
                 WHERE p2.id_torneig = p.id_torneig
             )
-        """, (user_id,))
+        """, (id_usuaris,))
         count_highest_points = cursor.fetchone()['count']
 
         # Sum of partides guanyades and perdudes
@@ -101,14 +101,14 @@ def verify_user_statistics(id_usuaris: int):
                    SUM(partides_perdudes) AS total_losses
             FROM estadistiques
             WHERE id_usuari = %s
-        """, (user_id,))
+        """, (id_usuaris,))
         stats = cursor.fetchone()
         total_wins = stats['total_wins'] or 0
         total_losses = stats['total_losses'] or 0
 
         # Return the UserStatistics object
         return UserStatistics(
-            id=user_id,
+            id=id_usuaris,
             username=username,
             rounds_played=total_wins + total_losses,
             rounds_won=total_wins,
