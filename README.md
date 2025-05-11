@@ -7,6 +7,18 @@
 - [WEB](https://github.com/EdwindanielTIC/web_TurnoNauta.git)
 
 
+## Iniciar l'APIREST
+```bash
+source ~/venv/bin/activate
+
+sudo ~/venv/bin/uvicorn TurnoNauta_FastAPI.SRC.main:app \
+    --reload \
+    --host 0.0.0.0 \
+    --port 8443 \
+    --ssl-keyfile  RUTA A LA CLAU PRIVADA
+     \
+    --ssl-certfile RUTA AL CERTIFICAT
+```
 ## Estructura de Directoris
 ![Estructura de Directoris](./img/image.png)
 
