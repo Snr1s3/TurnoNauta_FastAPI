@@ -112,11 +112,8 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             SET punts = punts + %s, victories = victories + %s, derrotes = derrotes + %s
             WHERE id_usuari = %s AND id_torneig = %s;
         """
-        print(update_ronda_request)
-        print("punts u 1" + str(2 * update_ronda_request.resultat_usuari_1 ))
-        print("victories u 1" +str(update_ronda_request.resultat_usuari_1))
-        print("derrotes u 1"  +str(update_ronda_request.resultat_usuari_2))
-        print("id usuari"  +str(update_ronda_request.id_usuari_1))
+        print(f"User 1: id={update_ronda_request.id_usuari_1}, points={2 * update_ronda_request.resultat_usuari_1}, victories={update_ronda_request.resultat_usuari_1}, defeats={update_ronda_request.resultat_usuari_2}")
+
         cursor.execute(query, (
             2 * update_ronda_request.resultat_usuari_1, 
             update_ronda_request.resultat_usuari_1,
@@ -132,10 +129,7 @@ def update_ronda_to_db(update_ronda_request: UpdateRondaRequest):
             SET punts = punts + %s, victories = victories + %s, derrotes = derrotes + %s
             WHERE id_usuari = %s AND id_torneig = %s;
         """
-        print("punts u 2" +str(2 * update_ronda_request.resultat_usuari_2 ))
-        print("victories u 2"  +str(update_ronda_request.resultat_usuari_2))
-        print("derrotes u 2"  +str(update_ronda_request.resultat_usuari_1))
-        print("id susuari 2"  +str(update_ronda_request.id_usuari_2))
+        print(f"User 2: id={update_ronda_request.id_usuari_2}, points={2 * update_ronda_request.resultat_usuari_2}, victories={update_ronda_request.resultat_usuari_2}, defeats={update_ronda_request.resultat_usuari_1}")
         cursor.execute(query, (
             2 * update_ronda_request.resultat_usuari_2, 
             update_ronda_request.resultat_usuari_2,
